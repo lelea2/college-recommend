@@ -12,24 +12,31 @@ h2 {
   color: #ef9a9a;
 }
 
-.left {
-  width: 350px;
+#app-nav a.active {
+  text-decoration: underline;
+}
+
+.left-rail {
+  width: 300px;
   position: fixed;
   display: inline-block;
+  height: 100%;
+  background: #eceff1;
 }
 
-.right {
-  width: calc(100% - 350px);
+.right-rail {
+  width: calc(100% - 300px);
   display: inline-block;
+  margin-left: 300px;
 }
 
-.right .container {
+.right-rail {
   margin-bottom: 60px;
   padding-top: 60px;
   position: relative;
 }
 
-.right .container button {
+.right-rail button {
   width: 300px;
   margin: 30px auto;
   display: block;
@@ -44,6 +51,7 @@ h2 {
   font-size: 16px;
   margin: 10px 0;
   color: #1e88e5;
+  font-weight: bold;
 }
 
 /** CSS for college colelction view */

@@ -15,9 +15,9 @@ var NavLinks = React.createClass({
     return (
       <div className="nav-wrapper">
         <IndexLink to="/" className="brand-logo"><i className="material-icons">home</i>College Dashboard</IndexLink>
-        <ul id="nav-mobile" className="right hide-on-med-and-down">
+        <ul id="app-nav" className="right hide-on-med-and-down">
           <li><Link to="/home" activeClassName="active">Home</Link></li>
-          <li><Link to="/stat" activeClassName="active">Stats</Link></li>
+          <li><Link to="/stats" activeClassName="active">Stats</Link></li>
           <li><Link to="/admin" activeClassName="active">Admin</Link></li>
         </ul>
       </div>
@@ -155,10 +155,10 @@ var Home = React.createClass({
   render: function() {
     return (
       <div>
-        <div className="left">
+        <div className="left-rail">
           <LeftNav />
         </div>
-        <div className="right">
+        <div className="right-rail">
           {this.renderHeader()}
           <div className="college-collection">
             {this.renderItem()}
