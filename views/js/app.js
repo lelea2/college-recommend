@@ -28,13 +28,33 @@ var NavLinks = React.createClass({
 //Component for left nav
 var LeftNav = React.createClass({
 
-  //Function to handle filter
-  handleFilter: function() {
-
+  getInitialState: function() {
+    return {
+      value1: [470, 2310],
+      value2: [13, 34],
+      value3: [0, 51059]
+    };
   },
 
-  onChange: function(value) {
-    console.log(value);
+  //Function to handle filter
+  handleFilter: function() {
+    $(document).trigger('change_range', {
+      sat: this.state.value1,
+      act: this.state.value2,
+      tuition: this.state.value
+    });
+  },
+
+  onChange: function(value, type) {
+    // console.log(type);
+    // console.log(value);
+    if (type === 'sat') {
+      this.setState({value1: value});
+    } else if (type === 'act') {
+      this.setState({value2: value});
+    } else { //tuition
+      this.setState({value3: value});
+    }
   },
 
   render: function() {
@@ -42,42 +62,22 @@ var LeftNav = React.createClass({
       <div className="filter-collection">
         <h3>Adjust filter to view</h3>
         <div>
-          <label>SAT score</label>
-          <ReactSlider defaultValue={[470, 2310]} min={470} max={2310} onChange={this.onChange} withBars className="horizontal-slider" pearling={true} />
+          <label>SAT score: [{this.state.value1[0] + ', ' + this.state.value1[1]}]</label>
+          <ReactSlider defaultValue={[470, 2310]} min={470} max={2310} onChange={this.onChange.bind(this, 'sat')} withBars className="horizontal-slider" pearling={true} />
           </div>
         <div>
-          <label>ACT score</label>
-          <ReactSlider defaultValue={[13, 34]} min={13} max={34} withBars onChange={this.onChange} className="horizontal-slider" pearling={true} />
+          <label>ACT score: [{this.state.value1[0] + ', ' + this.state.value1[1]}]</label>
+          <ReactSlider defaultValue={[13, 34]} min={13} max={34} withBars onChange={this.onChange.bind(this, 'act')} className="horizontal-slider" pearling={true} />
         </div>
         <div>
-          <label>Tuition</label>
-          <ReactSlider defaultValue={[0, 51059]} min={0} max={51059} onChange={this.onChange} withBars className="horizontal-slider" pearling={true} />
+          <label>Tuition: [{this.state.value2[0] + ', ' + this.state.value2[1]}]</label>
+          <ReactSlider defaultValue={[0, 51059]} min={0} max={51059} onChange={this.onChange.bind(this, 'tuition')} withBars className="horizontal-slider" pearling={true} />
         </div>
         <button type="button" className="waves-effect waves-light btn" onClick={this.handleFilter}>Apply</button>
       </div>
     );
   }
 });
-
-//Rendering app page
-var App = React.createClass({
-  mixins: [Router.State],
-  componentDidMount: function() {
-  },
-  render: function() {
-    return (
-      <div>
-        <div className="navbar-fixed">
-          <nav id="navbar">
-            <NavLinks />
-          </nav>
-        </div>
-        {this.props.children}
-      </div>
-    );
-  }
-});
-
 
 //Component render on index page
 var Home = React.createClass({
@@ -86,16 +86,17 @@ var Home = React.createClass({
     return {
       loading: false,
       dataArr: [],
-      LastKey: ''
+      LastKey: {}
     };
-  },
-
-  componentWillLeave: function() {
-
   },
 
   componentDidMount: function() {
     this.getData();
+    $(document).bind('change_range', this.handleChangeRange);
+  },
+
+  handleChangeRange: function() {
+
   },
 
   getURL: function() {
@@ -255,6 +256,25 @@ var Stats = React.createClass({
   render: function() {
     return (
       <div className="container">
+      </div>
+    );
+  }
+});
+
+//Rendering app page
+var App = React.createClass({
+  // mixins: [Router.State],
+  componentDidMount: function() {
+  },
+  render: function() {
+    return (
+      <div>
+        <div className="navbar-fixed">
+          <nav id="navbar">
+            <NavLinks />
+          </nav>
+        </div>
+        {this.props.children}
       </div>
     );
   }
