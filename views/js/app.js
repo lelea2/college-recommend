@@ -59,6 +59,7 @@ var LeftNav = React.createClass({
   }
 });
 
+//Rendering app page
 var App = React.createClass({
   mixins: [Router.State],
   componentDidMount: function() {
@@ -102,10 +103,17 @@ var Home = React.createClass({
   },
 
   getData: function() {
+    if (this.state.loading === true) {
+      return;
+    }
+    this.setState({
+      loading: true
+    });
     $.get(this.getURL(), function(resp) {
       this.setState({
         dataArr: this.state.dataArr.concat(resp.data),
-        LastKey: resp.lastKey
+        LastKey: resp.lastKey,
+        loading: false
       });
     }.bind(this));
   },
@@ -166,6 +174,18 @@ var Home = React.createClass({
     });
   },
 
+  renderButton: function() {
+    if (this.state.loading === true) {
+      return (
+        <div className="loading"></div>
+      );
+    } else {
+      return (
+        <button type="button" onClick={this.loadMore} className="waves-effect waves-light btn-large">Load More...</button>
+      );
+    }
+  },
+
   render: function() {
     return (
       <div>
@@ -177,7 +197,7 @@ var Home = React.createClass({
           <div className="college-collection">
             {this.renderItem()}
           </div>
-          <button type="button" onClick={this.loadMore} className="waves-effect waves-light btn-large">Load More...</button>
+          {this.renderButton()}
         </div>
       </div>
     );
@@ -187,22 +207,44 @@ var Home = React.createClass({
 var Admin = React.createClass({
 
   setupInitialData: function() {
-    this.data = ['file1.json, file2.json, file3.json, file4.json, file5.json'];
+    this.data = ['file1.json', 'file2.json', 'file3.json', 'file4.json', 'file5.json'];
   },
 
-  componentWillLeave: function() {
+  getInitialState: function() {
     this.setupInitialData();
+    return {
+      loading: false
+    };
   },
 
-  componentDidMount: function() {
+  handleOnChange: function() {
 
+  },
+
+  updateTable: function() {
+
+  },
+
+  renderItem: function() {
+    var self = this;
+    return this.data.map(function(value, i) {
+      return (
+        <p>
+          <input key={i} onChange={self.handleOnChange} type="checkbox" name={value} value={value} id={value} />
+          <label htmlFor={value}>{value}</label>
+        </p>
+      );
+    });
   },
 
   render: function() {
     return (
       <div className="container">
         <h2>Please choose a file to upload to database.</h2>
-
+        <form>
+          {this.renderItem()}
+          <button type="button" onClick={this.updateTable} className="waves-effect waves-light btn-large">Load data</button>
+        </form>
       </div>
     );
   }
