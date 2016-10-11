@@ -1,0 +1,21 @@
+{
+  "name": "college-analyze-dashboard",
+  "version": "1.0.0",
+  "description": "Application for dashboard analytics study",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Khanh Dao <kareendao88@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.0.1",
+    "bluebird": "^3.4.6",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "joi": "^9.1.0",
+    "vogels": "^2.2.0"
+  },
+  "devDependencies": {}
+}
