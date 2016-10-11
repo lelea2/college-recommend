@@ -16,6 +16,8 @@ var NavLinks = React.createClass({
       <div className="nav-wrapper">
         <IndexLink to="/" className="brand-logo"><i className="material-icons">home</i>College Dashboard</IndexLink>
         <ul id="nav-mobile" className="right hide-on-med-and-down">
+          <li><Link to="/home">Home</Link></li>
+          <li><Link to="/stat">Stats</Link></li>
           <li><Link to="/admin">Admin</Link></li>
         </ul>
       </div>
@@ -167,12 +169,24 @@ var Admin = React.createClass({
   }
 });
 
+var Stats = React.createClass({
+
+  render: function() {
+    return (
+      <div className="container">
+      </div>
+    );
+  }
+});
+
 //Render component
 ReactDOM.render(
   <Router>
     <Route path="/" name="app" component={App}>
       <IndexRoute component={Home} />
       <Route path="admin" component={Admin} />
+      <Route path="home" component={Home} />
+      <Route path="stats" component={Stats} />
     </Route>
   </Router>,
   app
