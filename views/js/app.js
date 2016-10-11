@@ -45,7 +45,7 @@ var LeftNav = React.createClass({
     });
   },
 
-  onChange: function(value, type) {
+  onChange: function(type, value) {
     // console.log(type);
     // console.log(value);
     if (type === 'sat') {
@@ -66,11 +66,11 @@ var LeftNav = React.createClass({
           <ReactSlider defaultValue={[470, 2310]} min={470} max={2310} onChange={this.onChange.bind(this, 'sat')} withBars className="horizontal-slider" pearling={true} />
           </div>
         <div>
-          <label>ACT score: [{this.state.value1[0] + ', ' + this.state.value1[1]}]</label>
+          <label>ACT score: [{this.state.value2[0] + ', ' + this.state.value2[1]}]</label>
           <ReactSlider defaultValue={[13, 34]} min={13} max={34} withBars onChange={this.onChange.bind(this, 'act')} className="horizontal-slider" pearling={true} />
         </div>
         <div>
-          <label>Tuition: [{this.state.value2[0] + ', ' + this.state.value2[1]}]</label>
+          <label>Tuition: [{this.state.value3[0] + ', ' + this.state.value3[1]}]</label>
           <ReactSlider defaultValue={[0, 51059]} min={0} max={51059} onChange={this.onChange.bind(this, 'tuition')} withBars className="horizontal-slider" pearling={true} />
         </div>
         <button type="button" className="waves-effect waves-light btn" onClick={this.handleFilter}>Apply</button>
