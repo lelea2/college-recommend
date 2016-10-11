@@ -1,0 +1,43 @@
+{
+  "name": "react-slider",
+  "version": "0.6.1",
+  "description": "Slider component for React",
+  "main": "react-slider.js",
+  "keywords": [
+    "react-component",
+    "react",
+    "slider",
+    "component"
+  ],
+  "author": "Michał Powaga <michalpowaga13@gmail.com>",
+  "contributors": [
+    {
+      "name": "Florian Klampfer",
+      "email": "f.klampfer@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "homepage": "https://github.com/mpowaga/react-slider",
+  "_release": "0.6.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.6.1",
+    "commit": "0afe25c18bbf7d561220672f46bcec04d1af482b"
+  },
+  "_source": "https://github.com/mpowaga/react-slider.git",
+  "_target": "^0.6.1",
+  "_originalSource": "react-slider",
+  "_direct": true
+}
