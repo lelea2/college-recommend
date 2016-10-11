@@ -12,58 +12,7 @@ var vogels = require('vogels'),
     CONFIG = require('./config/config');
 
 vogels.AWS.config.loadFromPath('./.ec2/credential.json');
-
-// feed.getSATSort().then(function(result) {
-//   console.log(result.data[0]);
-// });
-//data for collected data
-// {
-//   name: data[1],
-//   img: data[0][0],
-//   sat_score: data[6].raw,
-//   act_score: data[7].raw,
-//   tuition: data[8].raw,
-//   ranking: data[16],
-//   acceptance_rate: data[17].raw,
-//   location: data[18],
-//   student_falculty_ratio: data[12].raw,
-//   median_salary: data[11].raw,
-//   number_of_applications: data[24].raw,
-//   total_student: data[26].raw,
-//   graduation_rate: data[10].raw
-// }
-
-// Define table in DynamoDB
-var CollegeTable = vogels.define(CONFIG.DYNAMO_TABLE, {
-  hashKey: 'id',
-  rangeKey: 'sat_score',
-  // add the timestamp attributes (updatedAt, createdAt)
-  timestamps : true,
-  schema: {
-    id: Joi.string(),
-    name: Joi.string(),
-    location: Joi.string(),
-    img: Joi.string(),
-    sat_score: Joi.number(),
-    act_score: Joi.number(),
-    tuition: Joi.number(),
-    ranking: Joi.string(),
-    acceptance_rate: Joi.number().default(null),
-    student_falculty_ratio: Joi.number().default(null),
-    median_salary: Joi.number(),
-    number_of_applications: Joi.number(),
-    total_student: Joi.number(),
-    graduation_rate: Joi.number()
-  },
-  indexes: [
-    {hashKey: 'id', rangeKey: 'act_score', type: 'local', name: 'NameActIndex'},
-    {hashKey: 'id', rangeKey: 'tuition', type: 'local', name: 'NameTuitionIndex'},
-    {hashKey: 'id', rangeKey: 'acceptance_rate', type: 'local', name: 'NameAcceptanceIndex'},
-    {hashKey: 'id', rangeKey: 'median_salary', type: 'local', name: 'NameSalaryIndex'},
-    {hashKey: 'id', rangeKey: 'graduation_rate', type: 'local', name: 'NameGraduationsIndex'}
-  ]
-});
-
+var CollegeTable = require('./models/table');
 //Generate tables array
 var tables = {};
 tables[CONFIG.DYNAMO_TABLE] = {

@@ -1,0 +1,45 @@
+.horizontal-slider {
+  width: 90%;
+  max-width: 300px;
+  height: 40px;
+  margin: 10px auto;
+  border: 1px solid #ddd;
+}
+
+.handle {
+  font-size: 0.9em;
+  text-align: center;
+  background-color: #f2f2f2;
+  color: white;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.handle.active {
+  background-color: #b6b6b6;
+}
+
+.bar {
+  position: relative;
+  background: #ddd;
+}
+
+.bar.bar-1 {
+  background: #f00;
+}
+
+.bar.bar-2 {
+  background: #0f0;
+}
+
+.horizontal-slider .bar {
+  top: 15px;
+  height: 10px;
+}
+
+.horizontal-slider .handle {
+  top: 1px;
+  width: 40px;
+  height: 38px;
+  line-height: 38px;
+}

@@ -12,16 +12,38 @@ h2 {
   color: #ef9a9a;
 }
 
-.container {
+.left {
+  width: 350px;
+  position: fixed;
+  display: inline-block;
+}
+
+.right {
+  width: calc(100% - 350px);
+  display: inline-block;
+}
+
+.right .container {
   margin-bottom: 60px;
   padding-top: 60px;
   position: relative;
 }
 
-.container button {
+.right .container button {
   width: 300px;
   margin: 30px auto;
   display: block;
+}
+
+/*** CSS for filter collection **/
+.filter-collection {
+  padding: 20px;
+}
+
+.filter-collection label {
+  font-size: 16px;
+  margin: 10px 0;
+  color: #1e88e5;
 }
 
 /** CSS for college colelction view */

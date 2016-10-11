@@ -12,11 +12,6 @@ var express = require('express'),
 
 router.route('/')
   .get(function(req, res) {
-    // var LastKey = (req.query.id) ? {
-    //   id: req.query.id,
-    //   sat_score: parseInt(req.query.sat_score, 10)
-    // } : null;
-    // console.log(LastKey);
     pull.getData(40, lastKey, function(err, result) {
       if (err) {
         res.status(500).send('Fail to fetch data');
