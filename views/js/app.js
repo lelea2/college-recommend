@@ -28,21 +28,35 @@ var NavLinks = React.createClass({
 //Component for left nav
 var LeftNav = React.createClass({
 
+  //Function to handle filter
+  handleFilter: function() {
+
+  },
+
+  onChange: function(value) {
+    console.log(value);
+  },
+
   render: function() {
     return (
       <div className="filter-collection">
+        <h3>Adjust filter to view</h3>
         <div>
           <label>SAT score</label>
-          <ReactSlider defaultValue={[470, 2310]} min={470} max={2310} withBars className="horizontal-slider" pearling={true} />
-        </div>
+          <ReactSlider defaultValue={[470, 2310]} min={470} max={2310} onChange={this.onChange} withBars className="horizontal-slider" pearling={true} />
+          </div>
         <div>
           <label>ACT score</label>
-          <ReactSlider defaultValue={[13, 34]} min={13} max={34} withBars className="horizontal-slider" pearling={true} />
+          <ReactSlider defaultValue={[13, 34]} min={13} max={34} withBars onChange={this.onChange} className="horizontal-slider" pearling={true} />
         </div>
+        <div>
+          <label>Tuition</label>
+          <ReactSlider defaultValue={[0, 51059]} min={0} max={51059} onChange={this.onChange} withBars className="horizontal-slider" pearling={true} />
+        </div>
+        <button type="button" className="waves-effect waves-light btn" onClick={this.handleFilter}>Apply</button>
       </div>
     );
   }
-
 });
 
 var App = React.createClass({
@@ -155,7 +169,7 @@ var Home = React.createClass({
   render: function() {
     return (
       <div>
-        <div className="left-rail">
+        <div className="left-rail hide-on-med-and-down">
           <LeftNav />
         </div>
         <div className="right-rail">
@@ -216,4 +230,3 @@ ReactDOM.render(
   </Router>,
   app
 );
-

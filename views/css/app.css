@@ -42,6 +42,14 @@ h2 {
   display: block;
 }
 
+@media screen and (max-width: 991px) {
+  .right-rail {
+    margin-left: 0;
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+
 /*** CSS for filter collection **/
 .filter-collection {
   padding: 20px;
@@ -53,6 +61,17 @@ h2 {
   color: #1e88e5;
   font-weight: bold;
 }
+.filter-collection h3 {
+  text-align: center;
+  margin: 15px auto;
+  font-size: 18px;
+  color: #ff5252;
+}
+.filter-collection button {
+  margin: 10px auto;
+  display: block;
+}
+/*** End filter css **/
 
 /** CSS for college colelction view */
 .collection-heading {

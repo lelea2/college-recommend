@@ -24,10 +24,7 @@ router.route('/')
         }
         res.status(200).json({
           data: arr,
-          lastKey: {
-            sat_score: lastKey.sat_score,
-            id: lastKey.id
-          }
+          lastKey: lastKey
         });
       }
     });

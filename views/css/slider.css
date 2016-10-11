@@ -20,15 +20,15 @@
 
 .bar {
   position: relative;
-  background: #ddd;
+  background: #80cbc4;
 }
 
 .bar.bar-1 {
-  background: #f00;
+  background: #80cbc4;
 }
 
 .bar.bar-2 {
-  background: #0f0;
+  background: #00695c;
 }
 
 .horizontal-slider .bar {
