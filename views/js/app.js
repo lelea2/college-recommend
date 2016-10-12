@@ -370,6 +370,12 @@ var Admin = React.createClass({
   },
 
   updateTable: function(type) {
+    if (this.state.loading === true) {
+      return;
+    }
+    this.setState({
+      loading: true
+    });
     $.ajax({
       type: 'POST',
       url: '/feed',
@@ -397,20 +403,21 @@ var Admin = React.createClass({
   },
 
   render: function() {
+    var buttonState = (this.state.loading === true) ? 'disabled' : '';
     return (
       <div className="container">
         <h2>Please choose a file to upload to database.</h2>
         <div className="row">
           <form className="col s6">
             {this.renderItem()}
-            <button type="button" onClick={this.updateTable.bind(this, 'college')} className="waves-effect waves-light btn-large">Load College data</button>
+            <button type="button" onClick={this.updateTable.bind(this, 'college')} className={"waves-effect waves-light btn-large " + buttonState}>Load College data</button>
           </form>
           <form className="col s6">
             <p>
               <input checked readOnly type="checkbox" name="loan.csv" value="loan.csv" id="loan.csv" />
               <label>loan.csv</label>
             </p>
-            <button type="button" onClick={this.updateTable.bind(this, 'loan')} className="waves-effect waves-light btn-large">Load Loan data</button>
+            <button type="button" onClick={this.updateTable.bind(this, 'loan')} className={"waves-effect waves-light btn-large " + buttonState}>Load Loan data</button>
           </form>
         </div>
       </div>
