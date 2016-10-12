@@ -89,12 +89,13 @@ function feedCollegeData() {
 }
 
 function formatValue(str) {
-  if (!!str) {
-    str = str.replace('$', '').trim();
+  try {
+    str = str.replace(/$/g, '').trim();
     str = str.replace(/,/g, '');
     return parseInt(str, 10) || 0;
+  } catch(ex) {
+    return 0;
   }
-  return 0;
 }
 
 //Function to convert college loan to JSON
@@ -122,23 +123,26 @@ function feedLoanData() {
       // console.log(jsonArray[3]); //here is your result jsonarray
       for (var i = 0; i < jsonArray.length; i++) {
         var data = jsonArray[i];
+        // console.log(data);
+        // console.log(data.field7);
         if (!!data.field2) {
           arr.push({
             name: data.field2,
             state: data.field3,
             school_type: data.field5,
             federal_loan: formatValue(data.field7),
-            federal_recipient: formatValue(data.field6),
+            federal_recipient: data.field6,
             federal_reimburse: formatValue(data.field8),
             grant_loan: formatValue(data.field10),
-            grant_recipient: formatValue(data.field9),
+            grant_recipient: data.field9,
             grant_reimburse: formatValue(data.field11),
             work_study_loan: formatValue(data.field13),
-            work_study_recipient: Joi.number(data.field12),
-            work_study_reimburse: Joi.number(data.field14)
+            work_study_recipient: data.field12,
+            work_study_reimburse: formatValue(data.field14)
           });
         }
       }
+      // console.log(arr[0]);
       resolve({data: arr});
     });
   });
