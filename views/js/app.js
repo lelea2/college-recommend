@@ -361,16 +361,27 @@ var Admin = React.createClass({
 
   },
 
-  updateTable: function() {
+  updateTable: function(type) {
+    $.ajax({
+      type: 'POST',
+      url: '/feed',
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        type: type
+      }),
+      success: function() {
 
+      }
+    });
   },
 
   renderItem: function() {
     var self = this;
     return this.data.map(function(value, i) {
       return (
-        <p>
-          <input key={i} onChange={self.handleOnChange} type="checkbox" name={value} value={value} id={value} />
+        <p key={i}>
+          <input onChange={self.handleOnChange} type="checkbox" name={value} value={value} id={value} />
           <label htmlFor={value}>{value}</label>
         </p>
       );
@@ -381,10 +392,19 @@ var Admin = React.createClass({
     return (
       <div className="container">
         <h2>Please choose a file to upload to database.</h2>
-        <form>
-          {this.renderItem()}
-          <button type="button" onClick={this.updateTable} className="waves-effect waves-light btn-large">Load data</button>
-        </form>
+        <div className="row">
+          <form className="col s6">
+            {this.renderItem()}
+            <button type="button" onClick={this.updateTable.bind(this, 'college')} className="waves-effect waves-light btn-large">Load College data</button>
+          </form>
+          <form className="col s6">
+            <p>
+              <input checked readOnly type="checkbox" name="loan.csv" value="loan.csv" id="loan.csv" />
+              <label>loan.csv</label>
+            </p>
+            <button type="button" onClick={this.updateTable.bind(this, 'loan')} className="waves-effect waves-light btn-large">Load Loan data</button>
+          </form>
+        </div>
       </div>
     );
   }

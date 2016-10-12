@@ -23,3 +23,9 @@ Tech stack
 * ReactJS
 * DynamoDB
 * Bower
+* ChartJS
+
+
+Preference testing:
+
+https://scotch.io/tutorials/test-a-node-restful-api-with-mocha-and-chai
