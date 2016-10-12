@@ -18,7 +18,8 @@
     "madison": "^1.0.1",
     "vogels": "^2.2.0",
     "cheerio": "^0.22.0",
-    "request": "^2.75.0"
+    "request": "^2.75.0",
+    "csvtojson": "^1.0.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

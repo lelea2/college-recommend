@@ -4,7 +4,7 @@
 
 'use strict';
 
-var CollegeTable = require('./table');
+var CollegeTable = require('./table').CollegeTable;
 
 function getData(total, LastKey, data, callback) {
   var sat = data.sat,

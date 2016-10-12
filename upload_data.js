@@ -12,7 +12,7 @@ var vogels = require('vogels'),
     CONFIG = require('./config/config');
 
 vogels.AWS.config.loadFromPath('./.ec2/credential.json');
-var CollegeTable = require('./models/table');
+var CollegeTable = require('./models/table').CollegeTable;
 //Generate tables array
 var tables = {};
 tables[CONFIG.DYNAMO_TABLE] = {
@@ -27,7 +27,7 @@ vogels.createTables(tables, function(err) {
   } else {
     console.log('table is created and active, inserting to table...');
     //TODO: consolidate bluebird with async
-    feed.getSATSort().then(function(result) {
+    feed.feedCollegeData().then(function(result) {
       var data = result.data;
       async.times(data.length, function(i, next) {
         var obj = data[i];
@@ -45,7 +45,8 @@ vogels.createTables(tables, function(err) {
           student_falculty_ratio: obj.student_falculty_ratio,
           median_salary: obj.median_salary,
           total_student: obj.total_student,
-          graduation_rate: obj.graduation_rate
+          graduation_rate: obj.graduation_rate,
+          number_of_applications: obj.number_of_applications
         }, next);
       });
     });

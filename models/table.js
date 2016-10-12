@@ -19,6 +19,7 @@ var CollegeTable = vogels.define(CONFIG.DYNAMO_TABLE, {
   // add the timestamp attributes (updatedAt, createdAt)
   timestamps : true,
   schema: {
+    id: Joi.number(),
     name: Joi.string(),
     location: Joi.string(),
     img: Joi.string(),
@@ -42,4 +43,36 @@ var CollegeTable = vogels.define(CONFIG.DYNAMO_TABLE, {
   ]
 });
 
-module.exports = CollegeTable;
+//Make data flat here for better query in prototype
+var LoanTable = vogels.define(CONFIG.DYNAMO_LOAN_TABLE, {
+  hashKey: 'id',
+  rangeKey: 'federal_loan',
+  timestamps : true,
+  schema: {
+    id: Joi.string(),
+    name: Joi.string(),
+    state: Joi.string(),
+    school_type: Joi.string(),
+    federal_loan: Joi.number(),
+    federal_recipient: Joi.number(),
+    federal_reimburse: Joi.number(),
+    grant_loan: Joi.number(),
+    grant_recipient: Joi.number(),
+    grant_reimburse: Joi.number(),
+    work_study_loan: Joi.number(),
+    work_study_recipient: Joi.number(),
+    work_study_reimburse: Joi.number()
+  },
+  indexes: [
+    {hashKey: 'id', rangeKey: 'federal_reimburse', type: 'local', name: 'FederalReimburse'},
+    {hashKey: 'id', rangeKey: 'grant_loan', type: 'local', name: 'GrantLoan'},
+    {hashKey: 'id', rangeKey: 'grant_reimburse', type: 'local', name: 'GrantReimburse'},
+    {hashKey: 'id', rangeKey: 'work_study_loan', type: 'local', name: 'WorkStudyLoan'},
+    {hashKey: 'id', rangeKey: 'work_study_reimburse', type: 'local', name: 'WorkStudyReimburse'}
+  ]
+});
+
+module.exports = {
+  CollegeTable: CollegeTable,
+  LoanTable: LoanTable
+};

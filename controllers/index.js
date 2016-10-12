@@ -17,4 +17,6 @@ router.use('/data', require('./data'));
 
 router.use('/recommend', require('./recommend'));
 
+router.use('/feed', require('./feed'));
+
 module.exports = router;

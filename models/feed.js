@@ -9,7 +9,9 @@ var SAT_DATA_5 = require('../data/sat_sort_5');
 
 
 var Promise = require('bluebird');
-
+var Converter = require("csvtojson").Converter;
+var converter = new Converter({});
+var fs = require('fs');
 
 // [ 'California_Institute_of_Technology_170694.png',
 //     '',
@@ -57,7 +59,9 @@ college_data = college_data.concat(SAT_DATA_1.data.data)
                           .concat(SAT_DATA_3.data.data)
                           .concat(SAT_DATA_4.data.data)
                           .concat(SAT_DATA_5.data.data);
-function getSATSort() {
+
+//Function to feed college data (JSON -> dynamoDB)
+function feedCollegeData() {
   return new Promise(function(resolve, reject) {
     // var college_data = SAT_DATA.data.data;
     // console.log(SAT_DATA.data.defs);
@@ -84,8 +88,65 @@ function getSATSort() {
   });
 }
 
+function formatValue(str) {
+  if (!!str) {
+    str = str.replace('$', '').trim();
+    str = str.replace(/,/g, '');
+    return parseInt(str, 10) || 0;
+  }
+  return 0;
+}
+
+//Function to convert college loan to JSON
+//Response type:
+//{ '2014-2015 Award Year Campus-Based Program Data by School': 100200,
+  // field2: 'Alabama Agricultural & Mechanical University',
+  // field3: 'AL',
+  // field4: 357621357,
+  // field5: 'Public',
+  // field6: 111,
+  // field7: ' $293,797.00',
+  // field8: ' $259,580.00',
+  // field9: 99,
+  // field10: '$-',
+  // field11: ' $426,836.00',
+  // field12: 165,
+  // field13: ' $223,508.00',
+  // field14: ' $260,167.00' }
+function feedLoanData() {
+  //read from file
+  var arr = [];
+  return new Promise(function(resolve, reject) {
+    fs.createReadStream("./data/csv/loan.csv").pipe(converter);
+    converter.on("end_parsed", function (jsonArray) {
+      // console.log(jsonArray[3]); //here is your result jsonarray
+      for (var i = 0; i < jsonArray.length; i++) {
+        var data = jsonArray[i];
+        if (!!data.field2) {
+          arr.push({
+            name: data.field2,
+            state: data.field3,
+            school_type: data.field5,
+            federal_loan: formatValue(data.field7),
+            federal_recipient: formatValue(data.field6),
+            federal_reimburse: formatValue(data.field8),
+            grant_loan: formatValue(data.field10),
+            grant_recipient: formatValue(data.field9),
+            grant_reimburse: formatValue(data.field11),
+            work_study_loan: formatValue(data.field13),
+            work_study_recipient: Joi.number(data.field12),
+            work_study_reimburse: Joi.number(data.field14)
+          });
+        }
+      }
+      resolve({data: arr});
+    });
+  });
+}
+
 // getSATSort();
 module.exports = {
-  getSATSort: getSATSort
+  feedCollegeData: feedCollegeData,
+  feedLoanData: feedLoanData
 };
 
