@@ -385,7 +385,9 @@ var Admin = React.createClass({
         type: type
       }),
       success: function() {
-
+        this.setState({
+          loading: false
+        });
       }
     });
   },
