@@ -6,6 +6,7 @@
 
 var express = require('express'),
     path = require('path'),
+    madison = require('madison'),
     router  = express.Router(),
     pull = require('../models/pull'),
     lastKey = null;
@@ -38,9 +39,9 @@ router.route('/')
   });
 
 //Get back collection of US zipcode for recommendation data
-router.route('/zip')
+router.route('/states')
   .get(function(req, res) {
-
+    res.status(200).json(madison.states);
   });
 
 module.exports = router;
