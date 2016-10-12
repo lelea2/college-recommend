@@ -41,7 +41,7 @@ var LeftNav = React.createClass({
     $(document).trigger('change_range', {
       sat: this.state.value1,
       act: this.state.value2,
-      tuition: this.state.value
+      tuition: this.state.value3
     });
   },
 
@@ -70,7 +70,7 @@ var LeftNav = React.createClass({
           <ReactSlider defaultValue={[13, 34]} min={13} max={34} withBars onChange={this.onChange.bind(this, 'act')} className="horizontal-slider" pearling={true} />
         </div>
         <div>
-          <label>Tuition: [{this.state.value3[0] + ', ' + this.state.value3[1]}]</label>
+          <label>Tuition($): [{this.state.value3[0] + ', ' + this.state.value3[1]}]</label>
           <ReactSlider defaultValue={[0, 51059]} min={0} max={51059} onChange={this.onChange.bind(this, 'tuition')} withBars className="horizontal-slider" pearling={true} />
         </div>
         <button type="button" className="waves-effect waves-light btn" onClick={this.handleFilter}>Apply</button>
@@ -87,9 +87,9 @@ var Home = React.createClass({
       loading: false,
       dataArr: [],
       LastKey: {},
-      sat: [],
-      act: [],
-      tuition: []
+      sat: [470, 2310],
+      act: [13, 34],
+      tuition: [0, 51059]
     };
   },
 
@@ -99,15 +99,17 @@ var Home = React.createClass({
   },
 
   handleChangeRange: function(e, params) {
+    // console.log(params);
     this.setState({
       sat: params.sat.join(','),
       act: params.act.join(','),
-      tuition: params.tuition.join(',')
-    }, this.getData)
+      tuition: params.tuition.join(','),
+      dataArr: [] //empty array collection
+    }, this.getData);
   },
 
   getURL: function() {
-    return '/data';
+    return '/data?sat=' + this.state.sat + '&act=' + this.state.act + '&tuition=' + this.state.tuition;
   },
 
   getData: function() {

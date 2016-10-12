@@ -12,7 +12,10 @@ var express = require('express'),
 
 router.route('/')
   .get(function(req, res) {
-    pull.getData(40, lastKey, function(err, result) {
+    var sat = req.query.sat.split(','),
+        act = req.query.act.split(','),
+        tuition = req.query.tuition.split(',');
+    pull.getData(40, lastKey, {sat: sat, act: act, tuition: tuition}, function(err, result) {
       if (err) {
         res.status(500).send('Fail to fetch data');
       } else {
@@ -28,6 +31,9 @@ router.route('/')
         });
       }
     });
+  })
+  .post(function(req, res) {
+    var file_name = req.body.file_name;
   });
 
 module.exports = router;
