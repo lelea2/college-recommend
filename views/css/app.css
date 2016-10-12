@@ -24,6 +24,12 @@ h2 {
   background: #eceff1;
 }
 
+.left-rail select {
+  width: 100%;
+  display: block;
+  margin: 15px auto;
+}
+
 .right-rail {
   width: calc(100% - 300px);
   display: inline-block;

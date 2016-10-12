@@ -10,6 +10,53 @@ var { Router,
       RouteHandler,
       Link } = ReactRouter;
 
+//Component to view all state
+var StateSelect = React.createClass({
+
+  getInitialState: function() {
+    return {
+      data: [],
+      optionsState: ''
+    };
+  },
+
+  componentDidMount: function() {
+    $.get('/data/states', function(data) {
+      this.setState({
+        data: [{abbr: '', name: 'Select a state'}].concat(data)
+      });
+    }.bind(this));
+  },
+
+  renderItems: function() {
+    return this.state.data.map(function(value, i) {
+      return (
+        <option key={i} value={value.abbr}>{value.name}</option>
+      );
+    });
+  },
+
+  handleOnChange: function(e) {
+    var value = e.target.value;
+    // console.log(value);
+    this.setState({
+      optionsState: value
+    });
+  },
+
+  getValue: function() {
+    return this.state.optionsState;
+  },
+
+  render: function() {
+    return (
+      <select className="state-options" value={this.state.optionsState} onChange={this.handleOnChange}>
+        {this.renderItems()}
+      </select>
+    );
+  }
+});
+
 //Component to render top navigation
 var NavLinks = React.createClass({
   render: function() {
@@ -62,6 +109,7 @@ var LeftNav = React.createClass({
     return (
       <div className="filter-collection">
         <h3>Adjust filter to view</h3>
+        <StateSelect />
         <div>
           <label>SAT score: [{this.state.value1[0] + ', ' + this.state.value1[1]}]</label>
           <ReactSlider defaultValue={[470, 2310]} min={470} max={2310} onChange={this.onChange.bind(this, 'sat')} withBars className="horizontal-slider" pearling={true} />
