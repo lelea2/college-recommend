@@ -45,11 +45,10 @@ var CollegeTable = vogels.define(CONFIG.DYNAMO_TABLE, {
 
 //Make data flat here for better query in prototype
 var LoanTable = vogels.define(CONFIG.DYNAMO_LOAN_TABLE, {
-  hashKey: 'id',
+  hashKey: 'name',
   rangeKey: 'federal_loan',
   timestamps : true,
   schema: {
-    id: Joi.string(),
     name: Joi.string(),
     state: Joi.string(),
     school_type: Joi.string(),
@@ -64,11 +63,11 @@ var LoanTable = vogels.define(CONFIG.DYNAMO_LOAN_TABLE, {
     work_study_reimburse: Joi.number()
   },
   indexes: [
-    {hashKey: 'id', rangeKey: 'federal_reimburse', type: 'local', name: 'FederalReimburse'},
-    {hashKey: 'id', rangeKey: 'grant_loan', type: 'local', name: 'GrantLoan'},
-    {hashKey: 'id', rangeKey: 'grant_reimburse', type: 'local', name: 'GrantReimburse'},
-    {hashKey: 'id', rangeKey: 'work_study_loan', type: 'local', name: 'WorkStudyLoan'},
-    {hashKey: 'id', rangeKey: 'work_study_reimburse', type: 'local', name: 'WorkStudyReimburse'}
+    {hashKey: 'name', rangeKey: 'federal_reimburse', type: 'local', name: 'FederalReimburse'},
+    {hashKey: 'name', rangeKey: 'grant_loan', type: 'local', name: 'GrantLoan'},
+    {hashKey: 'name', rangeKey: 'grant_reimburse', type: 'local', name: 'GrantReimburse'},
+    {hashKey: 'name', rangeKey: 'work_study_loan', type: 'local', name: 'WorkStudyLoan'},
+    {hashKey: 'name', rangeKey: 'work_study_reimburse', type: 'local', name: 'WorkStudyReimburse'}
   ]
 });
 
