@@ -76,9 +76,16 @@ h2 {
 /** CSS for college colelction view */
 .collection-heading {
   position: fixed;
-  width: 70%;
+  width: 100%;
+  max-width: calc(100% - 300px);
   top: 64px;
   background: #fff;
+}
+@media screen and (max-width: 991px) {
+  .collection-heading {
+    width: 100%;
+    max-width: none;
+  }
 }
 .collection-heading .item {
   padding: 10px;
