@@ -86,7 +86,10 @@ var Home = React.createClass({
     return {
       loading: false,
       dataArr: [],
-      LastKey: {}
+      LastKey: {},
+      sat: [],
+      act: [],
+      tuition: []
     };
   },
 
@@ -95,12 +98,16 @@ var Home = React.createClass({
     $(document).bind('change_range', this.handleChangeRange);
   },
 
-  handleChangeRange: function() {
-
+  handleChangeRange: function(e, params) {
+    this.setState({
+      sat: params.sat.join(','),
+      act: params.act.join(','),
+      tuition: params.tuition.join(',')
+    }, this.getData)
   },
 
   getURL: function() {
-    return '/data' + (this.state.LastKey === '' ? '' : '?id=' + this.state.LastKey.id + '&sat_score=' + this.state.LastKey.sat_score);
+    return '/data';
   },
 
   getData: function() {
