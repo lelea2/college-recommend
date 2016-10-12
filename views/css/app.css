@@ -108,6 +108,22 @@ h2 {
 .college-collection .item > div,
 .college-collection .item > p {
   text-align: center;
+  margin: 5px auto !important;
+  color: #424242;
+  line-height: 1.2;
+}
+
+.college-collection .item .name {
+  color: #2196f3;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.college-collection .item .item-ranking {
+  color: #43a047;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 /** End class for CSS collection view */

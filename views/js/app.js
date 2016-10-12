@@ -166,7 +166,7 @@ var Home = React.createClass({
             <div className="name">{value.name}</div>
             <div className="detail">
               <p>{value.location}</p>
-              <p>Total Students: {value.total_student}</p>
+              <p><em>Total Students:</em> {value.total_student}</p>
             </div>
           </div>
           <div className="col s1 item-ranking">

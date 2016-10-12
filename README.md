@@ -22,3 +22,4 @@ Tech stack
 * NodeJS
 * ReactJS
 * DynamoDB
+* Bower

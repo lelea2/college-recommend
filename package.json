@@ -16,7 +16,9 @@
     "express": "^4.14.0",
     "joi": "^9.1.0",
     "madison": "^1.0.1",
-    "vogels": "^2.2.0"
+    "vogels": "^2.2.0",
+    "cheerio": "^0.22.0",
+    "request": "^2.75.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
