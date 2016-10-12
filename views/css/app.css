@@ -80,6 +80,7 @@ h2 {
   max-width: calc(100% - 300px);
   top: 64px;
   background: #fff;
+  z-index: 100;
 }
 @media screen and (max-width: 991px) {
   .collection-heading {
@@ -124,6 +125,37 @@ h2 {
   color: #43a047;
   font-size: 20px;
   font-weight: bold;
+}
+
+.college-collection .item .bar {
+  height: 10px;
+  width: 100%;
+  background: #e0e0e0;
+}
+
+.college-collection .item .bar > div {
+  height: 10px;
+  display: block;
+  background: #69f0ae;
+  width: auto;
+}
+
+.college-collection .item .score-view {
+  display: block;
+  margin: 5px 10px;
+  width: 95%;
+}
+
+.college-collection .item .sat .score {
+  font-weight: bold;
+  font-size: 18px;
+  color: #0091ea;
+}
+
+.college-collection .item .act .score {
+  font-weight: bold;
+  font-size: 18px;
+  color: #00bfa5;
 }
 
 /** End class for CSS collection view */

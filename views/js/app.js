@@ -174,6 +174,48 @@ var Home = React.createClass({
     }
   },
 
+  renderSAT: function(value) {
+    if (value.sat_score) {
+      var percentage = Math.round(value.sat_score / 2310 * 100);
+      var style = {
+        width: percentage + '%'
+      };
+      return (
+        <div className="sat score-view">
+          <p className="score">{value.sat_score}</p>
+          <div className="bar">
+            <div style={style}></div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <p>N/A</p>
+      );
+    }
+  },
+
+  renderACT: function(value) {
+    if (value.act_score) {
+      var percentage = Math.round(value.act_score / 34 * 100);
+      var style = {
+        width: percentage + '%'
+      };
+      return (
+        <div className="act score-view">
+          <p className="score">{value.act_score}</p>
+          <div className="bar">
+            <div style={style}></div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <p>N/A</p>
+      );
+    }
+  },
+
   // name: Joi.string(),
   // location: Joi.string(),
   // img: Joi.string(),
@@ -207,8 +249,10 @@ var Home = React.createClass({
             {self.renderAccepetanceRate(value)}
           </div>
           <div className="col s2">
+            {self.renderSAT(value)}
           </div>
           <div className="col s2">
+            {self.renderACT(value)}
           </div>
         </div>
       );
