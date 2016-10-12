@@ -31,7 +31,7 @@ var StateSelect = React.createClass({
   renderItems: function() {
     return this.state.data.map(function(value, i) {
       return (
-        <option key={i} value={value.abbr}>{value.name}</option>
+        <option key={i} value={value.name}>{value.name}</option>
       );
     });
   },
@@ -89,7 +89,8 @@ var LeftNav = React.createClass({
     $(document).trigger('change_range', {
       sat: this.state.value1,
       act: this.state.value2,
-      tuition: this.state.value3
+      tuition: this.state.value3,
+      state: this.refs.state_option.getValue()
     });
   },
 
@@ -109,7 +110,7 @@ var LeftNav = React.createClass({
     return (
       <div className="filter-collection">
         <h3>Adjust filter to view</h3>
-        <StateSelect />
+        <StateSelect ref="state_option" />
         <div>
           <label>SAT score: [{this.state.value1[0] + ', ' + this.state.value1[1]}]</label>
           <ReactSlider defaultValue={[470, 2310]} min={470} max={2310} onChange={this.onChange.bind(this, 'sat')} withBars className="horizontal-slider" pearling={true} />
@@ -136,6 +137,8 @@ var Home = React.createClass({
       loading: false,
       dataArr: [],
       LastKey: {},
+      currState: '',
+      page: 0,
       sat: [470, 2310],
       act: [13, 34],
       tuition: [0, 51059]
@@ -153,12 +156,15 @@ var Home = React.createClass({
       sat: params.sat.join(','),
       act: params.act.join(','),
       tuition: params.tuition.join(','),
+      currState: params.state,
+      page: 0,
       dataArr: [] //empty array collection
     }, this.getData);
   },
 
   getURL: function() {
-    return '/data?sat=' + this.state.sat + '&act=' + this.state.act + '&tuition=' + this.state.tuition;
+    return '/data?sat=' + this.state.sat + '&act=' + this.state.act + '&tuition=' + this.state.tuition
+                + '&state=' + this.state.currState + '&page=' + this.state.page;
   },
 
   getData: function() {
@@ -172,7 +178,8 @@ var Home = React.createClass({
       this.setState({
         dataArr: this.state.dataArr.concat(resp.data),
         LastKey: resp.lastKey,
-        loading: false
+        loading: false,
+        page: this.state.page + 1
       });
     }.bind(this));
   },

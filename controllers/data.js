@@ -16,8 +16,11 @@ router.route('/')
   .get(function(req, res) {
     var sat = req.query.sat.split(','),
         act = req.query.act.split(','),
-        tuition = req.query.tuition.split(',');
-    pull.getData(40, lastKey, {sat: sat, act: act, tuition: tuition}, function(err, result) {
+        tuition = req.query.tuition.split(','),
+        state = req.query.state || '',
+        page = parseInt(req.query.page, 10) || 0,
+        lastKeyVal = (page === 0) ? null : lastKey;
+    pull.getData(40, lastKeyVal, {sat: sat, act: act, tuition: tuition, state: state}, function(err, result) {
       if (err) {
         res.status(500).send('Fail to fetch data');
       } else {
