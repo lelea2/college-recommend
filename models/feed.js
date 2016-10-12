@@ -90,7 +90,7 @@ function feedCollegeData() {
 
 function formatValue(str) {
   try {
-    str = str.replace(/$/g, '').trim();
+    str = str.replace('$', '').trim();
     str = str.replace(/,/g, '');
     return parseInt(str, 10) || 0;
   } catch(ex) {

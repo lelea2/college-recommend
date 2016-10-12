@@ -29,7 +29,7 @@ router.route('/')
     var type = req.body.type;
     // console.log(type);
     if (type === 'loan') {
-      console.log('>>>>>> Creating loan table ...');
+      // console.log('>>>>>> Creating loan table ...');
       vogels.createTables(loanTable, function(err) {
         if (err) {
           console.log('Error creating tables', err);
@@ -42,7 +42,7 @@ router.route('/')
               var obj = data[i];
               // console.log(obj);
               if (obj) {
-                console.log('>>> Insert data to table, i=' + i);
+                // console.log('>>> Insert data to table, i=' + i);
                 LoanTable.create({
                   name: obj.name,
                   state: obj.state,
