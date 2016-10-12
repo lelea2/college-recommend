@@ -10,6 +10,7 @@ var express = require('express'),
     pull = require('../models/pull'),
     lastKey = null;
 
+//Call in dashboard to display college information
 router.route('/')
   .get(function(req, res) {
     var sat = req.query.sat.split(','),
@@ -34,6 +35,12 @@ router.route('/')
   })
   .post(function(req, res) {
     var file_name = req.body.file_name;
+  });
+
+//Get back collection of US zipcode for recommendation data
+router.route('/zip')
+  .get(function(req, res) {
+
   });
 
 module.exports = router;
