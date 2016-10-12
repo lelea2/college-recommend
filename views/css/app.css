@@ -48,6 +48,14 @@ h2 {
   display: block;
 }
 
+.empty-message {
+  color: #009688;
+  text-align: center;
+  margin: 20px auto;
+  font-weight: bold;
+  font-size: 16px;
+}
+
 @media screen and (max-width: 991px) {
   .right-rail {
     margin-left: 0;

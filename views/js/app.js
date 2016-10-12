@@ -141,7 +141,8 @@ var Home = React.createClass({
       page: 0,
       sat: [470, 2310],
       act: [13, 34],
-      tuition: [0, 51059]
+      tuition: [0, 51059],
+      empty_message: ''
     };
   },
 
@@ -179,7 +180,8 @@ var Home = React.createClass({
         dataArr: this.state.dataArr.concat(resp.data),
         LastKey: resp.lastKey,
         loading: false,
-        page: this.state.page + 1
+        page: this.state.page + 1,
+        empty_message: this.state.dataArr.concat(resp.data).length > 0 ? '' : 'No colleges data match with filter.'
       });
     }.bind(this));
   },
@@ -320,9 +322,15 @@ var Home = React.createClass({
         <div className="loading"></div>
       );
     } else {
-      return (
-        <button type="button" onClick={this.loadMore} className="waves-effect waves-light btn-large">Load More...</button>
-      );
+      if (!!this.state.empty_message) {
+        return (
+          <div className="empty-message">{this.state.empty_message}</div>
+        );
+      } else {
+        return (
+          <button type="button" onClick={this.loadMore} className="waves-effect waves-light btn-large">Load More...</button>
+        );
+      }
     }
   },
 
