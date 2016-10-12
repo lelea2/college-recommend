@@ -1,5 +1,6 @@
 //Determine injected area
 var app = document.querySelector("#content");
+Chart.defaults.global.responsive = true;
 
 //Avoid duplication or React Router
 var { Router,
@@ -144,6 +145,35 @@ var Home = React.createClass({
     );
   },
 
+  renderAccepetanceRate: function(value) {
+    // console.log(value);
+    if (value.acceptance_rate) {
+      var data = [{
+            value: value.acceptance_rate,
+            color:"#F7464A",
+            highlight: "#FF5A5E",
+            label: "Accepted"
+          },
+          {
+            value: Math.round((100 - value.acceptance_rate) * 100) / 100,
+            color: "#46BFBD",
+            highlight: "#5AD3D1",
+            label: ""
+          }];
+      var PieChart = Chart.React['Pie'];
+      return (
+        <div>
+          <PieChart data={data} />
+          <p>{value.number_of_applications} of applications</p>
+        </div>
+      );
+    } else {
+      return (
+        <p>N/A</p>
+      );
+    }
+  },
+
   // name: Joi.string(),
   // location: Joi.string(),
   // img: Joi.string(),
@@ -158,6 +188,7 @@ var Home = React.createClass({
   // total_student: Joi.number(),
   // graduation_rate: Joi.number()
   renderItem: function() {
+    var self = this;
     return this.state.dataArr.map(function(value, i) {
       return (
         <div key={i} className="row item">
@@ -173,7 +204,7 @@ var Home = React.createClass({
             <p>{parseInt(value.ranking, 10) ? ('#' + value.ranking) : 'N/A'}</p>
           </div>
           <div className="col s2">
-
+            {self.renderAccepetanceRate(value)}
           </div>
           <div className="col s2">
           </div>
