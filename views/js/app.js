@@ -8,6 +8,7 @@ var { Router,
       IndexRoute,
       IndexLink,
       RouteHandler,
+      browserHistory,
       Link } = ReactRouter;
 
 //Component to view all state
@@ -29,9 +30,10 @@ var StateSelect = React.createClass({
   },
 
   renderItems: function() {
+    var self = this;
     return this.state.data.map(function(value, i) {
       return (
-        <option key={i} value={value[this.props.key || 'name']}>{value.name}</option>
+        <option key={i} value={value[self.props.key || 'name']}>{value.name}</option>
       );
     });
   },
@@ -505,7 +507,7 @@ var App = React.createClass({
 
 //Render component
 ReactDOM.render(
-  <Router>
+  <Router history={browserHistory}>
     <Route path="/" name="app" component={App}>
       <IndexRoute component={Home} />
       <Route path="admin" component={Admin} />
