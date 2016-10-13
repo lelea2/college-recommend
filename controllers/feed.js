@@ -15,7 +15,16 @@ var express = require('express'),
     feed = require('../models/feed'),
     CONFIG = require('../config/config');
 
-vogels.AWS.config.loadFromPath('./.ec2/credential.json');
+if (process.env.NODE_ENV === 'production') {
+  vogels.AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+    region: process.env.AWS_REGION
+  });
+} else {
+  vogels.AWS.config.loadFromPath('./.ec2/credential.json');
+}
+
 var LoanTable = require('../models/table').LoanTable;
 
 //Generate tables array
@@ -59,6 +68,7 @@ router.route('/')
                 }, next);
               }
             });
+            console.log('>>>> done sending data...');
             res.status(200).send();
           });
         }

@@ -65,7 +65,7 @@ var NavLinks = React.createClass({
         <IndexLink to="/" className="brand-logo"><i className="material-icons">home</i>College Dashboard</IndexLink>
         <ul id="app-nav" className="right hide-on-med-and-down">
           <li><Link to="/home" activeClassName="active">Home</Link></li>
-          <li><Link to="/stats" activeClassName="active">Stats</Link></li>
+          <li><Link to="/stats" activeClassName="active">Loans</Link></li>
           <li><Link to="/admin" activeClassName="active">Admin</Link></li>
         </ul>
       </div>
@@ -106,7 +106,7 @@ var LeftNav = React.createClass({
     }
   },
 
-  render: function() {
+  renderHomeNav: function() {
     return (
       <div className="filter-collection">
         <h3>Adjust filter to view</h3>
@@ -126,6 +126,23 @@ var LeftNav = React.createClass({
         <button type="button" className="waves-effect waves-light btn" onClick={this.handleFilter}>Apply</button>
       </div>
     );
+  },
+
+  renderStatsNav: function() {
+    return (
+      <div className="filter-collection">
+        <h3>Adjust to view loan stat</h3>
+        <StateSelect ref="state_option" />
+      </div>
+    );
+  },
+
+  render: function() {
+    if (this.props.page === 'home') {
+      return this.renderHomeNav();
+    } else {
+      return this.renderStatsNav();
+    }
   }
 });
 
@@ -297,6 +314,7 @@ var Home = React.createClass({
             <div className="detail">
               <p>{value.location}</p>
               <p><em>Total Students:</em> {value.total_student}</p>
+              <p><em>Tuition:</em> {value.tuition ? ('$' + value.tuition) : 'N/A'}</p>
             </div>
           </div>
           <div className="col s1 item-ranking">
@@ -338,7 +356,7 @@ var Home = React.createClass({
     return (
       <div>
         <div className="left-rail hide-on-med-and-down">
-          <LeftNav />
+          <LeftNav page="home" />
         </div>
         <div className="right-rail">
           {this.renderHeader()}
@@ -388,6 +406,7 @@ var Admin = React.createClass({
         this.setState({
           loading: false
         });
+        Materialize.toast('I am a toast!', 4000) // 4000 is the duration of the toast
       }
     });
   },
@@ -429,9 +448,24 @@ var Admin = React.createClass({
 
 var Stats = React.createClass({
 
+  getInitialState: function() {
+    return {
+      loading: true
+    };
+  },
+
+  componentDidMount: function() {
+
+  },
+
   render: function() {
     return (
-      <div className="container">
+      <div>
+        <div className="left-rail hide-on-med-and-down">
+          <LeftNav page="stats" />
+        </div>
+        <div className="right-rail">
+        </div>
       </div>
     );
   }

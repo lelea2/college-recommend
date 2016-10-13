@@ -10,7 +10,16 @@ var vogels = require('vogels'),
     AWS = vogels.AWS,
     CONFIG = require('../config/config');
 
-vogels.AWS.config.loadFromPath('./.ec2/credential.json');
+if (process.env.NODE_ENV === 'production') {
+  vogels.AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+    region: process.env.AWS_REGION
+  });
+} else {
+  vogels.AWS.config.loadFromPath('./.ec2/credential.json');
+}
+
 vogels.log.level('info');
 
 var CollegeTable = vogels.define(CONFIG.DYNAMO_TABLE, {
