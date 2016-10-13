@@ -10,7 +10,7 @@ var express = require('express'),
     router  = express.Router(),
     pull = require('../models/pull'),
     lastKey = null,
-    lastLoneKey = null;
+    lastLoanKey = null;
 
 //Call in dashboard to display college information
 router.route('/')
@@ -41,19 +41,35 @@ router.route('/')
 
 router.route('/loan')
   .get(function(req, res) {
-    pullData.getLoanData(lastLoneKey, {state: req.query.state}, function(err, result) {
+    pullData.getLoanData(lastLoanKey, {state: req.query.state}, function(err, result) {
       if (err) {
         res.status(500).send('Fail to fetch data');
       } else {
         var arr = [];
-        lastKey = result.LastEvaluatedKey;
-        // console.log('>>> LastEvaluatedKey: ' + JSON.stringify(lastKey));
+        lastLoanKey = result.LastEvaluatedKey;
         for (var i = 0; i < result.Items.length; i++) {
           arr.push(result.Items[i].attrs);
         }
         res.status(200).json({
           data: arr,
-          lastKey: lastKey
+          lastKey: lastLoanKey
+        });
+      }
+    });
+  });
+
+router.route('/highschool')
+  .get(function(req, res) {
+    pullData.getLoanData(function(err, result) {
+      if (err) {
+        res.status(500).send('Fail to fetch data');
+      } else {
+        var arr = [];
+        for (var i = 0; i < result.Items.length; i++) {
+          arr.push(result.Items[i].attrs);
+        }
+        res.status(200).json({
+          data: arr
         });
       }
     });

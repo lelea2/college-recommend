@@ -26,10 +26,16 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
 }
 
 var LoanTable = require('../models/table').LoanTable;
+var HighschoolTable = require('../models/table').HighschoolTable;
+
 
 //Generate tables array
 var loanTable = {};
+var higschoolTable = {};
 loanTable[CONFIG.DYNAMO_LOAN_TABLE] = {
+  readCapacity: 500, writeCapacity: 2000
+};
+higschoolTable[CONFIG.DYNAMO_HIGHSCHOOL_TABLE] = {
   readCapacity: 500, writeCapacity: 2000
 };
 var THREAD_COUNT = 200;
@@ -73,9 +79,41 @@ router.route('/')
           });
         }
       });
+    } else if (type === 'highschool') {
+      vogels.createTables(higschoolTable, function(err) {
+        if (err) {
+          console.log('Error creating tables', err);
+          res.status(500).send();
+          process.exit(1); //exit process do not executed
+        } else {
+          feed.feedHighschoolData(CONFIG.URL_CURL).then(function(result) {
+            var data = result.data;
+            async.times(data.length, function(i, next) {
+              var obj = data[i];
+              // console.log(obj);
+              if (obj) {
+                // console.log('>>> Insert data to table, i=' + i);
+                HighschoolTable.create({
+                  state: obj.state,
+                  eligible_number: obj.eligible_number,
+                  qualified_number: obj.qualified_number,
+                  qualified_percentage: obj.qualified_percentage
+                }, next);
+              }
+            });
+            console.log('>>>> Higschool table: done sending data...');
+            res.status(200).send();
+          });
+        }
+      });
     } else {
 
     }
   });
 
 module.exports = router;
+
+// feed.feedHighschoolData('http://www.usnews.com/education/best-high-schools/articles/how-states-compare')
+//     .then(function(result) {
+//       console.log(result);
+//     });

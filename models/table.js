@@ -80,7 +80,20 @@ var LoanTable = vogels.define(CONFIG.DYNAMO_LOAN_TABLE, {
   ]
 });
 
+//Generate highschool table
+var HighschoolTable = vogels.define(CONFIG.DYNAMO_HIGHSCHOOL_TABLE, {
+  hashKey: 'state',
+  rangeKey: 'qualified_percentage',
+  schema: {
+    state: Joi.string(),
+    eligible_number: Joi.number(),
+    qualified_number: Joi.number(),
+    qualified_percentage: Joi.number()
+  }
+});
+
 module.exports = {
   CollegeTable: CollegeTable,
-  LoanTable: LoanTable
+  LoanTable: LoanTable,
+  HighschoolTable: HighschoolTable
 };

@@ -12,6 +12,10 @@ h2 {
   color: #ef9a9a;
 }
 
+h4 {
+  font-size: 18px;
+  color: #37474f;
+}
 #app-nav a.active {
   text-decoration: underline;
 }
@@ -172,6 +176,9 @@ h2 {
   color: #00bfa5;
 }
 
+.college-collection .item .percentage_text {
+  color: #2e7d32;
+}
 /** End class for CSS collection view */
 
 /** CSS for loading icon **/

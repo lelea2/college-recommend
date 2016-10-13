@@ -11,6 +11,14 @@ var { Router,
       browserHistory,
       Link } = ReactRouter;
 
+function formatCurrency(number, fixFloat) {
+  var tofix = fixFloat || 0;
+  var num = parseFloat(number);
+  return num.toFixed(tofix).replace(/./g, function(c, i, a) {
+    return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
+  });
+}
+
 //Component to view all state
 var StateSelect = React.createClass({
 
@@ -121,15 +129,15 @@ var LeftNav = React.createClass({
         <h3>Adjust filter to view</h3>
         <StateSelect ref="state_option" />
         <div>
-          <label>SAT score: [{this.state.value1[0] + ', ' + this.state.value1[1]}]</label>
+          <label>SAT score: [{this.state.value1[0] + ' - ' + this.state.value1[1]}]</label>
           <ReactSlider defaultValue={[470, 2310]} min={470} max={2310} onChange={this.onChange.bind(this, 'sat')} withBars className="horizontal-slider" pearling={true} />
           </div>
         <div>
-          <label>ACT score: [{this.state.value2[0] + ', ' + this.state.value2[1]}]</label>
+          <label>ACT score: [{this.state.value2[0] + ' - ' + this.state.value2[1]}]</label>
           <ReactSlider defaultValue={[13, 34]} min={13} max={34} withBars onChange={this.onChange.bind(this, 'act')} className="horizontal-slider" pearling={true} />
         </div>
         <div>
-          <label>Tuition($): [{this.state.value3[0] + ', ' + this.state.value3[1]}]</label>
+          <label>Tuition($): [{formatCurrency(this.state.value3[0], 2) + ' - ' + formatCurrency(this.state.value3[1], 2)}]</label>
           <ReactSlider defaultValue={[0, 51059]} min={0} max={51059} onChange={this.onChange.bind(this, 'tuition')} withBars className="horizontal-slider" pearling={true} />
         </div>
         <button type="button" className="waves-effect waves-light btn" onClick={this.handleFilter}>Apply</button>
@@ -248,6 +256,7 @@ var Home = React.createClass({
       return (
         <div>
           <PieChart data={data} />
+          <p className="percentage_text">{value.acceptance_rate + '%'}</p>
           <p>{value.number_of_applications} of applications</p>
         </div>
       );
@@ -324,7 +333,7 @@ var Home = React.createClass({
             <div className="detail">
               <p>{value.location}</p>
               <p><em>Total Students:</em> {value.total_student}</p>
-              <p><em>Tuition:</em> {value.tuition ? ('$' + value.tuition) : 'N/A'}</p>
+              <p><em>Tuition:</em> {value.tuition ? ('$' + formatCurrency(value.tuition, 2)) : 'N/A'}</p>
             </div>
           </div>
           <div className="col s1 item-ranking">
@@ -401,9 +410,7 @@ var Admin = React.createClass({
     if (this.state.loading === true) {
       return;
     }
-    this.setState({
-      loading: true
-    });
+    this.setState({ loading: true });
     $.ajax({
       type: 'POST',
       url: '/feed',
@@ -413,10 +420,12 @@ var Admin = React.createClass({
         type: type
       }),
       success: function() {
-        this.setState({
-          loading: false
-        });
-        Materialize.toast('I am a toast!', 4000) // 4000 is the duration of the toast
+        this.setState({ loading: false });
+        Materialize.toast('Load data to DynamoDB successfully', 4000) // 4000 is the duration of the toast
+      },
+      fail: function() {
+        this.setState({ loading: false });
+        Materialize.toast('Load data to DynamoDB successfully', 4000) // 4000 is the duration of the toast
       }
     });
   },
@@ -439,16 +448,25 @@ var Admin = React.createClass({
       <div className="container">
         <h2>Please choose a file to upload to database.</h2>
         <div className="row">
+          <h4>Load College data</h4>
           <form className="col s6">
             {this.renderItem()}
             <button type="button" onClick={this.updateTable.bind(this, 'college')} className={"waves-effect waves-light btn-large " + buttonState}>Load College data</button>
           </form>
           <form className="col s6">
+            <h4>Load Loan data</h4>
             <p>
               <input checked readOnly type="checkbox" name="loan.csv" value="loan.csv" id="loan.csv" />
               <label>loan.csv</label>
             </p>
             <button type="button" onClick={this.updateTable.bind(this, 'loan')} className={"waves-effect waves-light btn-large " + buttonState}>Load Loan data</button>
+          </form>
+          <form className="col s6">
+            <h4>Load Highschool data</h4>
+            <p>
+              <textarea readOnly value="http://www.usnews.com/education/best-high-schools/articles/how-states-compare" />
+            </p>
+            <button type="button" onClick={this.updateTable.bind(this, 'highschool')} className={"waves-effect waves-light btn-large " + buttonState}>Load Highschool data</button>
           </form>
         </div>
       </div>

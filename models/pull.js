@@ -6,6 +6,7 @@
 
 var CollegeTable = require('./table').CollegeTable;
 var LoanTable = require('./table').LoanTable;
+var HighschoolTable = require('./table').HighschoolTable;
 
 function getData(total, LastKey, data, callback) {
   var sat = data.sat,
@@ -62,9 +63,17 @@ function getLoanData(LastKey, data, callback) {
   }
 }
 
+function getHighschoolData(callback) {
+  console.log('>>>> HighschoolTable: Pulling first batch of data, data=' + JSON.stringify(data));
+  LoanTable.scan()
+            .loadAll
+            .exec(callback);
+}
+
 module.exports = (function() {
   return {
     getData: getData,
-    getLoanData: getLoanData
+    getLoanData: getLoanData,
+    getHighschoolData: getHighschoolData
   };
 }());

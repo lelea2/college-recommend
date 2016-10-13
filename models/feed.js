@@ -12,6 +12,8 @@ var Promise = require('bluebird');
 var Converter = require("csvtojson").Converter;
 var converter = new Converter({});
 var fs = require('fs');
+var request = require('request');
+var cheerio = require('cheerio');
 
 // [ 'California_Institute_of_Technology_170694.png',
 //     '',
@@ -148,9 +150,47 @@ function feedLoanData() {
   });
 }
 
-// getSATSort();
+function roundNumber(str) {
+  return Math.ceil(parseFloat(str) * 100) / 100;
+}
+
+//Function to feed highschool data from html
+function feedHighschoolData(url) {
+  return new Promise(function(resolve, reject) {
+    request(url, function(err, response, body) {
+      if (err) { //err do not proceed
+        reject({err: 'Fail to curl request'});
+        return;
+      }
+      // console.log(body);
+      var $ = cheerio.load(body, {
+        withDomLvl1: true,
+        normalizeWhitespace: false,
+        xmlMode: false,
+        decodeEntities: true
+      });
+      var tds = $('table tbody tr td'); //collection of tds in table body
+      var rows = $('table tbody tr');
+      // console.log($(tds).length);
+      // console.log($(rows).length);
+      var col_per_row = ($(tds).length / $(rows).length);
+      var arr = [];
+      for (var i = 1; i < $(rows).length; i++) {
+        var data = {
+          state: $(tds[col_per_row * i + 1]).text(),
+          eligible_number: parseInt($(tds[col_per_row * i + 2]).text(), 10),
+          qualified_number: parseInt($(tds[col_per_row * i + 5]).text(), 10),
+          qualified_percentage: roundNumber($(tds[col_per_row * i + 6]).text())
+        };
+        arr.push(data);
+      }
+      resolve({data: arr});
+    });
+  });
+}
+
 module.exports = {
   feedCollegeData: feedCollegeData,
-  feedLoanData: feedLoanData
+  feedLoanData: feedLoanData,
+  feedHighschoolData: feedHighschoolData
 };
-
