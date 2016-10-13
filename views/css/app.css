@@ -7,7 +7,8 @@ footer.page-footer {
 }
 
 h1,
-h2 {
+h2,
+h3 {
   font-size: 30px;
   color: #ef9a9a;
   font-weight: 500;
@@ -206,3 +207,11 @@ h4 {
 }
 
 /** End css for loading icon **/
+
+/** CSS FOR CHART */
+.container .highschool-chart {
+  margin: 20px auto 40px auto;
+  padding: 0 20px;
+}
+
+/** end css for chart */

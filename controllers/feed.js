@@ -38,7 +38,7 @@ loanTable[CONFIG.DYNAMO_LOAN_TABLE] = {
 higschoolTable[CONFIG.DYNAMO_HIGHSCHOOL_TABLE] = {
   readCapacity: 500, writeCapacity: 2000
 };
-var THREAD_COUNT = 200;
+var THREAD_COUNT = 1500;
 router.route('/')
   .post(function(req, res) {
     var type = req.body.type;

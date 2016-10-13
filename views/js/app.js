@@ -39,9 +39,10 @@ var StateSelect = React.createClass({
 
   renderItems: function() {
     var self = this;
+    console.log(self.props.keyname);
     return this.state.data.map(function(value, i) {
       return (
-        <option key={i} value={value[self.props.key || 'name']}>{value.name}</option>
+        <option key={i} value={value[self.props.keyname || 'name']}>{value.name}</option>
       );
     });
   },
@@ -76,6 +77,7 @@ var NavLinks = React.createClass({
         <ul id="app-nav" className="right hide-on-med-and-down">
           <li><Link to="/home" activeClassName="active">Home</Link></li>
           <li><Link to="/stats" activeClassName="active">Loans</Link></li>
+          <li><Link to="/highschools" activeClassName="active">Highschools</Link></li>
           <li><Link to="/admin" activeClassName="active">Admin</Link></li>
         </ul>
       </div>
@@ -149,7 +151,7 @@ var LeftNav = React.createClass({
     return (
       <div className="filter-collection">
         <h3>Adjust to view loan stat</h3>
-        <StateSelect ref="state_option_loan" key="abbr" />
+        <StateSelect ref="state_option_loan" keyname="abbr" />
         <button type="button" className="waves-effect waves-light btn" onClick={this.handleLoan}>Apply</button>
       </div>
     );
@@ -480,17 +482,51 @@ var Stats = React.createClass({
   getInitialState: function() {
     return {
       loading: false,
-      highschoolArr: []
+      loanArr: []
     };
   },
 
   componentDidMount: function() {
     $(document).bind('get_loan', this.getData);
-    this.getHighschoolData();
   },
 
   getData: function(e, params) {
+    if (this.state.loading === true) {
+      return;
+    }
+    this.setState({ loading: true });
+    $.get('/data/loan/?state=' + params.state, function(resp) {
+      this.setState({
+        loanArr: this.state.loanArr.concat(resp.data),
+      });
+    }.bind(this));
+  },
 
+  render: function() {
+    return (
+      <div>
+        <div className="left-rail hide-on-med-and-down">
+          <LeftNav page="stats" />
+        </div>
+        <div className="right-rail">
+        </div>
+      </div>
+    );
+  }
+});
+
+//Components to display highschool draft
+var Highschools = React.createClass({
+
+  getInitialState: function() {
+    return {
+      loading: false,
+      highschoolArr: []
+    };
+  },
+
+  componentDidMount: function() {
+    this.getHighschoolData();
   },
 
   getHighschoolData: function() {
@@ -536,19 +572,15 @@ var Stats = React.createClass({
 
   render: function() {
     return (
-      <div>
-        <div className="left-rail hide-on-med-and-down">
-          <LeftNav page="stats" />
-        </div>
-        <div className="right-rail">
-          <div className="highschool-chart">
-            {this.renderHighschoolBarChart()}
-          </div>
+      <div className="container">
+        <h3>Highschool Performance Stats</h3>
+        <div className="highschool-chart">
+          {this.renderHighschoolBarChart()}
         </div>
       </div>
     );
   }
-});
+})
 
 //Rendering app page
 var App = React.createClass({
@@ -577,6 +609,7 @@ ReactDOM.render(
       <Route path="admin" component={Admin} />
       <Route path="home" component={Home} />
       <Route path="stats" component={Stats} />
+      <Route path="highschools" component={Highschools} />
     </Route>
   </Router>,
   app
