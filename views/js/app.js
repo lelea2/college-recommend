@@ -39,7 +39,7 @@ var StateSelect = React.createClass({
 
   renderItems: function() {
     var self = this;
-    console.log(self.props.keyname);
+    // console.log(self.props.keyname);
     return this.state.data.map(function(value, i) {
       return (
         <option key={i} value={value[self.props.keyname || 'name']}>{value.name}</option>
@@ -482,7 +482,8 @@ var Stats = React.createClass({
   getInitialState: function() {
     return {
       loading: false,
-      loanArr: []
+      loanArr: [],
+      currSearch: ''
     };
   },
 
@@ -498,8 +499,37 @@ var Stats = React.createClass({
     $.get('/data/loan/?state=' + params.state, function(resp) {
       this.setState({
         loanArr: this.state.loanArr.concat(resp.data),
+        loading: false
       });
     }.bind(this));
+  },
+
+  handleSearchChange: function(e) {
+    var value = e.target.value;
+    console.log(value);
+    this.setState({
+      currSearch: value
+    });
+  },
+
+  renderTableBody: function() {
+    var self = this;
+    return this.state.loanArr.map(function(value, i) {
+      var hiddenState = (self.state.currSearch.length <= 3 ||
+        (self.state.currSearch.length > 3 && value.name.toLowerCase().indexOf(self.state.currSearch.toLowerCase()) > -1)) ? '' : 'hidden';
+      return (
+        <tr key={i} className={hiddenState}>
+          <td>{value.name}</td>
+          <td>{value.school_type}</td>
+          <td>${formatCurrency(value.federal_loan, 2)}</td>
+          <td>${formatCurrency(value.federal_reimburse, 2)}</td>
+          <td>{value.federal_recipient}</td>
+          <td>${formatCurrency(value.grant_loan, 2)}</td>
+          <td>${formatCurrency(value.grant_reimburse, 2)}</td>
+          <td>{value.grant_recipient}</td>
+        </tr>
+      );
+    });
   },
 
   render: function() {
@@ -508,7 +538,28 @@ var Stats = React.createClass({
         <div className="left-rail hide-on-med-and-down">
           <LeftNav page="stats" />
         </div>
-        <div className="right-rail">
+        <div className="right-rail row">
+          <div className="input-field col s6">
+            <input type="text" id="search" placeholder="Search school" onChange={this.handleSearchChange} />
+            <label htmlFor="search">Search</label>
+          </div>
+          <table className="centered responsive-table">
+            <thead>
+              <tr>
+                <th data-field="school_name">School Name</th>
+                <th data-field="school_type">Type</th>
+                <th data-field="federal_loan">Federal Loan</th>
+                <th data-field="federal_reimburse">Federal reimburse</th>
+                <th data-field="federal_recipient">Federal recepient</th>
+                <th data-field="Grant_loan">Grant loan</th>
+                <th data-field="federal_reimburse">Grant reimburse</th>
+                <th data-field="federal_recipient">Grant recipient</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.renderTableBody()}
+            </tbody>
+          </table>
         </div>
       </div>
     );

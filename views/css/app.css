@@ -5,7 +5,9 @@ footer.page-footer {
   padding-top: 0;
   z-index: 1000;
 }
-
+.hidden {
+  display: none;
+}
 h1,
 h2,
 h3 {
