@@ -9,7 +9,8 @@ var express = require('express'),
     madison = require('madison'),
     router  = express.Router(),
     pull = require('../models/pull'),
-    lastKey = null;
+    lastKey = null,
+    lastLoneKey = null;
 
 //Call in dashboard to display college information
 router.route('/')
@@ -36,9 +37,26 @@ router.route('/')
         });
       }
     });
-  })
-  .post(function(req, res) {
-    var file_name = req.body.file_name;
+  });
+
+router.route('/loan')
+  .get(function(req, res) {
+    pullData.getLoanData(lastLoneKey, {state: req.query.state}, function(err, result) {
+      if (err) {
+        res.status(500).send('Fail to fetch data');
+      } else {
+        var arr = [];
+        lastKey = result.LastEvaluatedKey;
+        // console.log('>>> LastEvaluatedKey: ' + JSON.stringify(lastKey));
+        for (var i = 0; i < result.Items.length; i++) {
+          arr.push(result.Items[i].attrs);
+        }
+        res.status(200).json({
+          data: arr,
+          lastKey: lastKey
+        });
+      }
+    });
   });
 
 //Get back collection of US zipcode for recommendation data

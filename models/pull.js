@@ -45,7 +45,7 @@ function getData(total, LastKey, data, callback) {
 // });
 
 
-function getLoanData(total, LastKey, data, callback) {
+function getLoanData(LastKey, data, callback) {
   if (LastKey !== null && typeof LastKey !== 'undefined') {
     console.log('>>> LoanTable: Puling data with LastKey, data=' + JSON.stringify(data));
     LoanTable.scan()
@@ -64,6 +64,7 @@ function getLoanData(total, LastKey, data, callback) {
 
 module.exports = (function() {
   return {
-    getData: getData
+    getData: getData,
+    getLoanData: getLoanData
   };
 }());

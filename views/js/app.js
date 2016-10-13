@@ -31,7 +31,7 @@ var StateSelect = React.createClass({
   renderItems: function() {
     return this.state.data.map(function(value, i) {
       return (
-        <option key={i} value={value.name}>{value.name}</option>
+        <option key={i} value={value[this.props.key || 'name']}>{value.name}</option>
       );
     });
   },
@@ -94,6 +94,13 @@ var LeftNav = React.createClass({
     });
   },
 
+  //Function to handle lone filter
+  handleLoan: function() {
+    $(document).trigger('get_loan', {
+      state: this.refs.state_option_loan.getValue()
+    });
+  },
+
   onChange: function(type, value) {
     // console.log(type);
     // console.log(value);
@@ -132,7 +139,8 @@ var LeftNav = React.createClass({
     return (
       <div className="filter-collection">
         <h3>Adjust to view loan stat</h3>
-        <StateSelect ref="state_option" />
+        <StateSelect ref="state_option_loan" key="abbr" />
+        <button type="button" className="waves-effect waves-light btn" onClick={this.handleLoan}>Apply</button>
       </div>
     );
   },
@@ -446,6 +454,7 @@ var Admin = React.createClass({
   }
 });
 
+//Components displaying stats on loan page
 var Stats = React.createClass({
 
   getInitialState: function() {
@@ -455,6 +464,10 @@ var Stats = React.createClass({
   },
 
   componentDidMount: function() {
+    $(document).bind('get_loan', this.getData);
+  },
+
+  getData: function(e, params) {
 
   },
 
