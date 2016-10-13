@@ -12,9 +12,6 @@ var express = require('express'),
 //
 
 router.use('/', require('./home'));
-router.use('/home', require('./home'));
-router.use('/stats', require('./home'));
-router.use('/admin', require('./home'));
 
 router.use('/data', require('./data'));
 
