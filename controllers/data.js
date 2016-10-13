@@ -41,7 +41,7 @@ router.route('/')
 
 router.route('/loan')
   .get(function(req, res) {
-    pullData.getLoanData(lastLoanKey, {state: req.query.state}, function(err, result) {
+    pull.getLoanData(lastLoanKey, {state: req.query.state}, function(err, result) {
       if (err) {
         res.status(500).send('Fail to fetch data');
       } else {
@@ -60,7 +60,7 @@ router.route('/loan')
 
 router.route('/highschool')
   .get(function(req, res) {
-    pullData.getLoanData(function(err, result) {
+    pull.getHighschoolData(function(err, result) {
       if (err) {
         res.status(500).send('Fail to fetch data');
       } else {

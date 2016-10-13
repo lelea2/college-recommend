@@ -10,12 +10,15 @@ h1,
 h2 {
   font-size: 30px;
   color: #ef9a9a;
+  font-weight: 500;
 }
 
 h4 {
   font-size: 18px;
   color: #37474f;
+  font-weight: 400;
 }
+
 #app-nav a.active {
   text-decoration: underline;
 }

@@ -58,16 +58,16 @@ function getLoanData(LastKey, data, callback) {
     console.log('>>>> LoanTable: Pulling first batch of data, data=' + JSON.stringify(data));
     LoanTable.scan()
               .where('state').contains(data.state)
-              .loadAll
+              .loadAll()
               .exec(callback);
   }
 }
 
 function getHighschoolData(callback) {
-  console.log('>>>> HighschoolTable: Pulling first batch of data, data=' + JSON.stringify(data));
-  LoanTable.scan()
-            .loadAll
-            .exec(callback);
+  console.log('>>>> HighschoolTable: Pulling first batch of data');
+  HighschoolTable.scan()
+                .loadAll()
+                .exec(callback);
 }
 
 module.exports = (function() {

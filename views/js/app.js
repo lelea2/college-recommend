@@ -479,16 +479,59 @@ var Stats = React.createClass({
 
   getInitialState: function() {
     return {
-      loading: true
+      loading: false,
+      highschoolArr: []
     };
   },
 
   componentDidMount: function() {
     $(document).bind('get_loan', this.getData);
+    this.getHighschoolData();
   },
 
   getData: function(e, params) {
 
+  },
+
+  getHighschoolData: function() {
+    if (this.state.loading === true) {
+      return;
+    }
+    this.setState({ loading: true });
+    $.get('/data/highschool', function(resp) {
+      this.setState({
+        highschoolArr: this.state.highschoolArr.concat(resp.data),
+      });
+    }.bind(this));
+  },
+
+  renderHighschoolBarChart: function() {
+    if (this.state.highschoolArr.length > 0) {
+      var label = this.state.highschoolArr.map(function(value) {
+        return value.state; //+ ': Eligible - ' + value.eligible_number + '; Qualified - ' + value.qualified_number;
+      });
+      var dataSet = this.state.highschoolArr.map(function(value) {
+        return value.qualified_percentage;
+      });
+      var data = {
+        labels: label,
+        datasets: [{
+          label: "My First dataset",
+          fillColor: "rgba(220,220,220,0.2)",
+          strokeColor: "rgba(220,220,220,1)",
+          pointColor: "rgba(220,220,220,1)",
+          pointStrokeColor: "#fff",
+          pointHighlightFill: "#fff",
+          pointHighlightStroke: "rgba(220,220,220,1)",
+          data: dataSet
+        }]
+      };
+      // console.log(data);
+      var BarChart = Chart.React['Bar'];
+      return (
+        <BarChart data={data} />
+      );
+    }
   },
 
   render: function() {
@@ -498,6 +541,9 @@ var Stats = React.createClass({
           <LeftNav page="stats" />
         </div>
         <div className="right-rail">
+          <div className="highschool-chart">
+            {this.renderHighschoolBarChart()}
+          </div>
         </div>
       </div>
     );
