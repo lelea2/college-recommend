@@ -7,7 +7,8 @@
 var express = require('express'),
     path = require('path'),
     router  = express.Router(),
-    pull = require('../models/pull');
+    pull = require('../models/pull'),
+    dispatch = require('./helpers/dispatcher');
 
 //Recommend based on
 //Range of SAT score
@@ -29,16 +30,6 @@ router.route('/')
   });
 
 
-//Model function to generate filter for college payment
-function generateDataModel(sat_score, act_score, salary_rate, public_service_hour, location, expect_payment) {
-  //Generate 3 algorithm based on public service_hour, expect_payment
-  if (public_service_hour > 300) {
 
-  } else if (public_service_hour > 100 && public_service_hour < 200) {
-
-  } else { //< 100
-
-  }
-}
 
 module.exports = router;

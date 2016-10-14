@@ -92,8 +92,19 @@ var HighschoolTable = vogels.define(CONFIG.DYNAMO_HIGHSCHOOL_TABLE, {
   }
 });
 
+//SAT score data
+var SATScoreTable = vogels.define(CONFIG.DYNAMO_SAT_TABLE, {
+  hashKey: 'state',
+  rangeKey: 'score',
+  schema: {
+    state: Joi.string(),
+    score: Joi.number()
+  }
+});
+
 module.exports = {
   CollegeTable: CollegeTable,
   LoanTable: LoanTable,
-  HighschoolTable: HighschoolTable
+  HighschoolTable: HighschoolTable,
+  SATScoreTable: SATScoreTable
 };

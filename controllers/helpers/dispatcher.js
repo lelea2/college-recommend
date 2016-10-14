@@ -4,22 +4,20 @@
 
 'use strict';
 
-//Range of SAT score, every  data of 100 we substract/add 8% of chance of getting in
-function getSATScore() {
+//Model function to generate filter for college payment
+function dispatch(sat_score, act_score, salary_rate, public_service_hour) {
+  //Generate 3 algorithm based on public service_hour, expect_payment
+  if (public_service_hour > 300) {
+    return {
+      sat_score: [sat_score - 150, 2400], //max sat score
+      act_score: [act_score - 5, 40],
+      salary_rate: salary_rate
+    }
+  } else if (public_service_hour > 100 && public_service_hour < 200) {
 
+  } else { //< 100
+
+  }
 }
 
-//Range of SAT score, every  data of 100 we substract/add 5% of chance of getting in
-function getACTScore() {
-
-}
-
-//Range of income
-//Howhouse income need to be at least 2.5 more than tution, if less than the chance to calculate chance to get financial aids
-function getHouseHoldIncome() {
-
-}
-
-function generateChance() {
-
-}
+module.exports = dispatch;

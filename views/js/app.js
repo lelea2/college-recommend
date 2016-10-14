@@ -470,6 +470,13 @@ var Admin = React.createClass({
             </p>
             <button type="button" onClick={this.updateTable.bind(this, 'highschool')} className={"waves-effect waves-light btn-large " + buttonState}>Load Highschool data</button>
           </form>
+          <form className="col s6">
+            <h4>SAT Score data</h4>
+            <p>
+              <textarea readOnly value="http://www.statisticbrain.com/sat-score-statistics/" />
+            </p>
+            <button type="button" onClick={this.updateTable.bind(this, 'sat')} className={"waves-effect waves-light btn-large " + buttonState}>Load SATScore data</button>
+          </form>
         </div>
       </div>
     );
@@ -572,7 +579,8 @@ var Highschools = React.createClass({
   getInitialState: function() {
     return {
       loading: false,
-      highschoolArr: []
+      highschoolArr: [],
+      satScoreArr: []
     };
   },
 
@@ -588,6 +596,12 @@ var Highschools = React.createClass({
     $.get('/data/highschool', function(resp) {
       this.setState({
         highschoolArr: this.state.highschoolArr.concat(resp.data),
+        loading: false
+      });
+    }.bind(this));
+    $.get('/data/sat', function(resp) {
+      this.setState({
+        satScoreArr: this.state.satScoreArr.concat(resp.data)
       });
     }.bind(this));
   },
@@ -621,9 +635,41 @@ var Highschools = React.createClass({
     }
   },
 
+  renderSATBarChart: function() {
+    if (this.state.satScoreArr.length > 0) {
+      var label = this.state.satScoreArr.map(function(value) {
+        return value.state;
+      });
+      var dataSet = this.state.satScoreArr.map(function(value) {
+        return value.score;
+      });
+      var data = {
+        labels: label,
+        datasets: [{
+          label: "My First dataset",
+          fillColor: "rgba(151,187,205,0.2)",
+          strokeColor: "rgba(151,187,205,1)",
+          pointColor: "rgba(151,187,205,1)",
+          pointStrokeColor: "#fff",
+          pointHighlightFill: "#fff",
+          pointHighlightStroke: "rgba(151,187,205,1)",
+          data: dataSet
+        }]
+      };
+      var BarChart = Chart.React['Bar'];
+      return (
+        <BarChart data={data} />
+      );
+    }
+  },
+
   render: function() {
     return (
       <div className="container">
+        <h3>Average SAT scores chart</h3>
+        <div className="sat-chart">
+          {this.renderSATBarChart()}
+        </div>
         <h3>Highschool Performance Stats</h3>
         <div className="highschool-chart">
           {this.renderHighschoolBarChart()}

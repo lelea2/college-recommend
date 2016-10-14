@@ -189,8 +189,40 @@ function feedHighschoolData(url) {
   });
 }
 
+//Function to feed SAT score data
+function feedSATData(url) {
+  return new Promise(function(resolve, reject) {
+    request(url, function(err, response, body) {
+      if (err) { //err do not proceed
+        reject({err: 'Fail to curl request'});
+        return;
+      }
+      // console.log(body);
+      var $ = cheerio.load(body, {
+        withDomLvl1: true,
+        normalizeWhitespace: false,
+        xmlMode: false,
+        decodeEntities: true
+      });
+      var rows = $("div.two_third #primary > table tr");
+      var tds = $("div.two_third #primary > table tr td");
+      var col_per_row = (($(tds).length - 2) / ($(rows).length - 1));
+      var arr = [];
+      for (var i = 1; i < $(rows).length - 1; i++) {
+        var data = {
+          state: $(tds[col_per_row * i + 1]).text(),
+          score: parseInt($(tds[col_per_row * i + 2]).text(), 10)
+        };
+        arr.push(data);
+      }
+      resolve({data: arr});
+    });
+  });
+}
+
 module.exports = {
   feedCollegeData: feedCollegeData,
   feedLoanData: feedLoanData,
-  feedHighschoolData: feedHighschoolData
+  feedHighschoolData: feedHighschoolData,
+  feedSATData: feedSATData
 };

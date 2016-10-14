@@ -7,6 +7,7 @@
 var CollegeTable = require('./table').CollegeTable;
 var LoanTable = require('./table').LoanTable;
 var HighschoolTable = require('./table').HighschoolTable;
+var SATScoreTable = require('./table').SATScoreTable;
 
 function getData(total, LastKey, data, callback) {
   var sat = data.sat,
@@ -63,9 +64,18 @@ function getLoanData(LastKey, data, callback) {
   }
 }
 
+//Get highschool data
 function getHighschoolData(callback) {
   console.log('>>>> HighschoolTable: Pulling first batch of data');
   HighschoolTable.scan()
+                .loadAll()
+                .exec(callback);
+}
+
+//Get SAT score data
+function getSATScoreData(callback) {
+  console.log('>>>> SATScoreTable: Pulling first batch of data');
+  SATScoreTable.scan()
                 .loadAll()
                 .exec(callback);
 }
@@ -74,6 +84,7 @@ module.exports = (function() {
   return {
     getData: getData,
     getLoanData: getLoanData,
-    getHighschoolData: getHighschoolData
+    getHighschoolData: getHighschoolData,
+    getSATScoreData: getSATScoreData
   };
 }());

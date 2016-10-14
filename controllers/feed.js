@@ -27,17 +27,23 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
 
 var LoanTable = require('../models/table').LoanTable;
 var HighschoolTable = require('../models/table').HighschoolTable;
-
+var SATScoreTable = require('../models/table').SATScoreTable;
 
 //Generate tables array
 var loanTable = {};
 var higschoolTable = {};
+var satScoreTable = {};
+
 loanTable[CONFIG.DYNAMO_LOAN_TABLE] = {
   readCapacity: 500, writeCapacity: 2000
 };
 higschoolTable[CONFIG.DYNAMO_HIGHSCHOOL_TABLE] = {
   readCapacity: 500, writeCapacity: 2000
 };
+satScoreTable[CONFIG.DYNAMO_SAT_TABLE] = {
+  readCapacity: 500, writeCapacity: 2000
+};
+
 var THREAD_COUNT = 600;
 router.route('/')
   .post(function(req, res) {
@@ -106,6 +112,31 @@ router.route('/')
           });
         }
       });
+    } else if (type === 'sat') {
+      vogels.createTables(satScoreTable, function(err) {
+        if (err) {
+          console.log('Error creating tables', err);
+          res.status(500).send();
+          process.exit(1); //exit process do not executed
+        } else {
+          feed.feedSATData(CONFIG.URL_SAT_CURL).then(function(result) {
+            var data = result.data;
+            async.times(data.length, function(i, next) {
+              var obj = data[i];
+              // console.log(obj);
+              if (obj) {
+                // console.log('>>> Insert data to table, i=' + i);
+                SATScoreTable.create({
+                  state: obj.state,
+                  score: obj.score
+                }, next);
+              }
+            });
+            console.log('>>>> SAT score table: done sending data...');
+            res.status(200).send();
+          });
+        }
+      });
     } else {
 
     }
@@ -114,6 +145,11 @@ router.route('/')
 module.exports = router;
 
 // feed.feedHighschoolData('http://www.usnews.com/education/best-high-schools/articles/how-states-compare')
+//     .then(function(result) {
+//       console.log(result);
+//     });
+
+// feed.feedSATData('http://www.statisticbrain.com/sat-score-statistics/')
 //     .then(function(result) {
 //       console.log(result);
 //     });

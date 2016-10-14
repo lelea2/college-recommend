@@ -39,6 +39,7 @@ router.route('/')
     });
   });
 
+//Get loan information
 router.route('/loan')
   .get(function(req, res) {
     pull.getLoanData(lastLoanKey, {state: req.query.state}, function(err, result) {
@@ -58,9 +59,28 @@ router.route('/loan')
     });
   });
 
+//Get highschool information
 router.route('/highschool')
   .get(function(req, res) {
     pull.getHighschoolData(function(err, result) {
+      if (err) {
+        res.status(500).send('Fail to fetch data');
+      } else {
+        var arr = [];
+        for (var i = 0; i < result.Items.length; i++) {
+          arr.push(result.Items[i].attrs);
+        }
+        res.status(200).json({
+          data: arr
+        });
+      }
+    });
+  });
+
+//Get SAT information
+router.route('/sat')
+  .get(function(req, res) {
+    pull.getSATScoreData(function(err, result) {
       if (err) {
         res.status(500).send('Fail to fetch data');
       } else {
