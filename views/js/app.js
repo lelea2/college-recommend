@@ -513,7 +513,7 @@ var Stats = React.createClass({
 
   handleSearchChange: function(e) {
     var value = e.target.value;
-    console.log(value);
+    // console.log(value);
     this.setState({
       currSearch: value
     });
@@ -663,10 +663,26 @@ var Highschools = React.createClass({
     }
   },
 
+  renderSATAverage: function() {
+    if (this.state.satScoreArr.length > 0) {
+      var total = 0;
+      for (var i = 0; i < this.state.satScoreArr.length; i++) {
+        var data = this.state.satScoreArr[i]
+        total += data.score;
+      }
+      console.log(total);
+      var average = Math.ceil(total / this.state.satScoreArr.length * 100)/100;
+      return (
+        <p className="average_score">Average Scores: <strong>{average}</strong></p>
+      );
+    }
+  },
+
   render: function() {
     return (
       <div className="container">
         <h3>Average SAT scores chart</h3>
+        {this.renderSATAverage()}
         <div className="sat-chart">
           {this.renderSATBarChart()}
         </div>
