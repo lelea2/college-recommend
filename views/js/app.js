@@ -681,12 +681,12 @@ var Highschools = React.createClass({
   render: function() {
     return (
       <div className="container">
-        <h3>Average SAT scores chart</h3>
+        <h3>Average SAT scores chart (2015)</h3>
         {this.renderSATAverage()}
         <div className="sat-chart">
           {this.renderSATBarChart()}
         </div>
-        <h3>Highschool Performance Stats</h3>
+        <h3>Highschool Performance Stats (2015)</h3>
         <div className="highschool-chart">
           {this.renderHighschoolBarChart()}
         </div>
