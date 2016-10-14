@@ -44,8 +44,14 @@ function getData(data, callback) {
             .exec(callback);
 }
 
+//Helper function to help calculate chance based on user input college that they are picking
+function calculatedChance() {
+
+}
+
 module.exports = (function() {
   return {
-    getData: getData
+    getData: getData,
+    calculatedChance: calculatedChance
   };
 }());

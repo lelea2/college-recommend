@@ -45,7 +45,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
 }
 ```
 
-******Heroku command
+######Heroku command
 
 ```
 heroku restart -a college-recommended

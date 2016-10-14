@@ -52,4 +52,11 @@ router.route('/')
     });
   });
 
+router.route('/chance')
+  .get(function(req, res) {
+    res.status(200).json({
+      data: 100
+    });
+  });
+
 module.exports = router;
