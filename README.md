@@ -53,3 +53,8 @@ heroku restart -a college-recommended
 heroku logs -t -t college-recommended
 
 ```
+
+#####Screenshot
+![Screenshot](https://github.com/lelea2/college-recommend/blob/master/screenshot/screen_1.jpg)
+![Screenshot](https://github.com/lelea2/college-recommend/blob/master/screenshot/screen_2.jpg)
+
