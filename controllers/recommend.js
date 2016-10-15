@@ -7,7 +7,7 @@
 var express = require('express'),
     path = require('path'),
     router  = express.Router(),
-    pull = require('../models/pull'),
+    recommend = require('../models/recommend'),
     dispatch = require('./helpers/dispatcher');
 
 //Recommend based on
@@ -18,6 +18,7 @@ var express = require('express'),
 //Range of salary rate
 router.route('/')
   .get(function(req, res) {
+    console.log(">>>>> Get recommend data");
     var params = req.query;
     var sat_score = parseInt(params.sat_score, 10);
     var act_score = parseInt(params.act_score, 10);
@@ -31,23 +32,20 @@ router.route('/')
       sat: result.sat_score,
       act: result.act_score,
       location: location,
-      tution: [tuition - 5000, tuition + 5000] //range of tution
+      tuition: tuition //range of tution
       // median_salary: [median_salary - 2000, median_salary + 4000]
     };
     console.log('>>>> Generate recommended data with data=' + JSON.stringify(generated_data));
-    pull.getData(generated_data, function(err, result) {
+    recommend.getData(generated_data, function(err, result) {
       if (err) {
         res.status(500).send('Fail to fetch data');
       } else {
         var arr = [];
-        lastKey = result.LastEvaluatedKey;
+        // lastKey = result.LastEvaluatedKey;
         for (var i = 0; i < result.Items.length; i++) {
           arr.push(result.Items[i].attrs);
         }
-        res.status(200).json({
-          data: arr,
-          lastKey: lastKey
-        });
+        res.status(200).json(arr);
       }
     });
   });
