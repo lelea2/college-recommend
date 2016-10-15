@@ -1,4 +1,5 @@
 **node_module**
+**/**/nod_modules**
 npm-log.debug
 .ec2
 ec2
