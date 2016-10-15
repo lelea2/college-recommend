@@ -21,7 +21,7 @@ function getData(data, callback) {
             .filterExpression('#sat_score BETWEEN :low1 AND :high1 ' +
               'AND #act_score BETWEEN :low2 AND :high2 ' +
               'AND #tuition BETWEEN :low3 AND :high3 AND contains(#location, :location)'
-              'AND #median_salary BETWEEN :low4 AND high4')
+              // 'AND #median_salary BETWEEN :low4 AND high4')
             .expressionAttributeValues({
                 ':low1' : parseInt(data.sat[0], 10),
                 ':high1' : parseInt(data.sat[1], 10),
@@ -29,8 +29,8 @@ function getData(data, callback) {
                 ':high2': parseInt(data.act[1], 10),
                 ':low3': parseInt(data.tuition[0], 10),
                 ':high3': parseInt(data.tuition[1], 10),
-                ':low4': parseInt(data.median_salary[0], 10),
-                ':high4': parseInt(data.median_salary[1], 10),
+                // ':low4': parseInt(data.median_salary[0], 10),
+                // ':high4': parseInt(data.median_salary[1], 10),
                 ':location': state
               })
             .expressionAttributeNames({
@@ -38,7 +38,7 @@ function getData(data, callback) {
               '#act_score' : 'act_score',
               '#tuition': 'tuition',
               '#location': 'location',
-              '#median_salary': 'median_salary'
+              // '#median_salary': 'median_salary'
             })
             .limit(randomIntFromInterval(5, 10)) //limit to 10
             .exec(callback);

@@ -336,6 +336,7 @@ var Home = React.createClass({
               <p>{value.location}</p>
               <p><em>Total Students:</em> {value.total_student}</p>
               <p><em>Tuition:</em> {value.tuition ? ('$' + formatCurrency(value.tuition, 2)) : 'N/A'}</p>
+              <p><em>Median Salary:</em> {value.median_salary ? ('$' + formatCurrency(value.median_salary, 2)) : 'N/A'}</p>
             </div>
           </div>
           <div className="col s1 item-ranking">
