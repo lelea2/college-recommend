@@ -1,0 +1,118 @@
+{
+  "src_folders" : ["nw/tests"],
+  "output_folder" : "nw/reports",
+  "globals_path" : "nightwatch.globals.js",
+  "test_workers": {
+    "enabled": true,
+    "workers": "auto"
+  },
+  "selenium" : {
+    "start_process" : true,
+    "server_path" : "./node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-2.50.1.jar",
+    "log_path" : "nw/logs",
+    "host" : "127.0.0.1",
+    "port" : 4444,
+    "cli_args" : {
+      "webdriver.chrome.driver" : "./node_modules/chromedriver/bin/chromedriver",
+      "webdriver.ie.driver" : "",
+      "webdriver.firefox.profile" : ""
+    }
+  },
+  "test_workers" : {
+    "enabled" : true,
+    "workers" : "auto"
+  },
+  "test_settings" : {
+    "default" : {
+      "launch_url" : "http://college-recommended.herokuapp.com/",
+      "selenium_port"  : 4444,
+      "selenium_host"  : "localhost",
+      "silent": true,
+      "screenshots" : {
+        "enabled" : true,
+        "path" : ""
+      },
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      }
+    },
+    "staging" : {
+      "launch_url" : "http://college-recommended.herokuapp.com/",
+      "selenium_port"  : 4444,
+      "selenium_host"  : "localhost",
+      "silent": true,
+      "screenshots" : {
+        "enabled" : true,
+        "path" : ""
+      },
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      }
+    },
+    "saucelabs_ff" : {
+      "selenium_host" : "ondemand.saucelabs.com",
+      "selenium_port" : 80,
+      "username" : "lelea21988",
+      "access_key" : "144deb4f-0b68-41cb-89d8-e68a7c061d54",
+      "use_ssl" : false,
+      "silent" : true,
+      "output" : true,
+      "screenshots" : {
+        "enabled" : false,
+        "on_failure" : true,
+        "path" : ""
+      },
+      "desiredCapabilities": {
+        "name" : "firefox-test",
+        "browserName": "chrome"
+      },
+      "globals" : {
+        "myGlobal" : "my_global"
+      },
+      "selenium" : {
+        "start_process" : false
+      }
+    },
+    "chrome": {
+      "desiredCapabilities": {
+        "platform": "XP",
+        "browserName": "chrome",
+        "version": "41"
+      }
+    },
+    "firefox" : {
+      "desiredCapabilities": {
+        "platform": "XP",
+        "browserName": "firefox",
+        "version": "33"
+      }
+    },
+    "internet_explorer_10" : {
+      "desiredCapabilities": {
+        "platform": "Windows 7",
+        "browserName": "internet explorer",
+        "version": "10"
+      }
+    },
+    "android_s4_emulator": {
+      "desiredCapabilities": {
+        "browserName": "android",
+        "deviceOrientation": "portrait",
+        "deviceName": "Samsung Galaxy S4 Emulator"
+      }
+    },
+    "iphone_6_simulator": {
+      "desiredCapabilities": {
+        "browserName": "iPhone",
+        "deviceOrientation": "portrait",
+        "deviceName": "iPhone 6",
+        "platform": "OSX 10.10",
+        "version": "8.4"
+      }
+    }
+  }
+}
